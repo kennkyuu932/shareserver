@@ -38,7 +38,7 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
  */
 
 const getHomeView = () => {
-  return {
+  let view = {
     type: 'home',
     title: {
       type: 'plain_text',
@@ -54,6 +54,8 @@ const getHomeView = () => {
       }
     ]
   }
+  
+  return JSON.stringify(view);
 };
 
 
