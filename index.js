@@ -49,9 +49,22 @@ const getHomeView = () => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "Hi, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
+          "text": "Hi, my source code is on <https://glitch.com/edit/#!/apphome-demo-note|glitch>!"
         }
-      }
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            action_id: "add_note",
+            text: {
+              type: "plain_text",
+              text: "Add a stickie"
+            }
+          }
+        ]
+      },
     ]
   }
   
