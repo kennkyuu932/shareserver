@@ -44,15 +44,15 @@ const getHomeView = () => {
       type: 'plain_text',
       text: 'View Title'
     },
-    // blocks: [
-    //   {
-    //     type: "section",
-    //     text: {
-    //       type: "mrkdwn",
-    //       text: "Hi!"
-    //     }
-    //   },
-    // ]
+    blocks: [ // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "Hi, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
+        }
+      }
+    ]
   }
 };
 
@@ -83,12 +83,17 @@ app.post('/slack/events', async(req, res) => {
 
       // Trigger when the App Home is opened by a user
       if(type === 'app_home_opened') {
-        const view = {};
+        
+        const args = {
+          token: process.env.SLACK_BOT_TOKEN,
+          user_id: user,
+          view: getHomeView()
+        };
   
-        const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify({user_id: user, view: getHomeView()}));
+        const result = await axios.post(`${apiUrl}/views.publish`, args);
         
         if (!result.ok) {
-          console.error('Views.publish API call failed!', result);
+          console.error('Views.publish API call failed!', result.data);
         }
       }
       break;
