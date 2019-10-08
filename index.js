@@ -32,17 +32,45 @@ app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
 app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 
+
+/*
+ * Home View
+ */
+
+const getHomeView = () => {
+  return {
+    type: 'home',
+    title: {
+      type: 'plain_text',
+      text: 'View Title'
+    },
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            "Hi!"
+        }
+      },
+    ]
+  }
+};
+
+
 /*
  * Endpoint to receive events from Slack's Events API.
  */
 
-app.post('/events', (req, res) => {
+app.post('/slack/events', async(req, res) => {
   switch (req.body.type) {
+      
     case 'url_verification': {
       // verify Events API endpoint by returning challenge if present
       res.send({ challenge: req.body.challenge });
       break;
     }
+      
     case 'event_callback': {
       // Verify the signing secret
       if (!signature.isVerified(req)) {
@@ -58,7 +86,7 @@ app.post('/events', (req, res) => {
       if(type === 'app_home_opened') {
         const view = {};
   
-        const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify({user_id: user, view: view}));
+        const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify({user_id: user, view: getHomeView()}));
       }
       break;
     }
