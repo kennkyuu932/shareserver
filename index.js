@@ -92,7 +92,7 @@ app.post('/slack/events', async(req, res) => {
             view: getHomeView()
           };
 
-          const result = await axios.post(`${apiUrl}/views.publish`, args);
+          const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
 
           if (!result.ok) {
             console.error('Views.publish API call failed!', result.data);
