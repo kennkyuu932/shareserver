@@ -44,16 +44,15 @@ const getHomeView = () => {
       type: 'plain_text',
       text: 'View Title'
     },
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text:
-            "Hi!"
-        }
-      },
-    ]
+    // blocks: [
+    //   {
+    //     type: "section",
+    //     text: {
+    //       type: "mrkdwn",
+    //       text: "Hi!"
+    //     }
+    //   },
+    // ]
   }
 };
 
@@ -87,6 +86,10 @@ app.post('/slack/events', async(req, res) => {
         const view = {};
   
         const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify({user_id: user, view: getHomeView()}));
+        
+        if (!result.ok) {
+          console.error('Views.publish API call failed!', result);
+        }
       }
       break;
     }
