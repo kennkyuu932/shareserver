@@ -32,7 +32,39 @@ app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
 app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 
+/*
+ * Endpoint to receive events from Slack's Events API.
+ */
 
+app.post('/events', (req, res) => {
+  switch (req.body.type) {
+    case 'url_verification': {
+      // verify Events API endpoint by returning challenge if present
+      res.send({ challenge: req.body.challenge });
+      break;
+    }
+    case 'event_callback': {
+      // Verify the signing secret
+      if (!signature.isVerified(req)) {
+        res.sendStatus(404);
+        return;
+      } 
+      
+      console.log(req.body.event);
+
+      const {type, user, channel} = req.body.event;
+
+      // Trigger when the App Home is opened by a user
+      if(type === 'app_home_opened') {
+        const view = {};
+  
+        const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify({user_id: user, view: view}));
+      }
+      break;
+    }
+    default: { res.sendStatus(404); }
+  }
+});
 
 
 
@@ -41,7 +73,7 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 const send = async(blocks, channel) => { 
 
   const args = {
-    token: process.env.SLACK_ACCESS_TOKEN,
+    token: process.env.SLACK_BOT_TOKEN,
     channel: channel,
     blocks: blocks
   };
