@@ -37,7 +37,7 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
  * Home View
  */
 
-const getHomeView = () => {
+const updateHomeView = () => {
   let view = {
     type: 'home',
     title: {
@@ -124,7 +124,7 @@ const displayHome = async(user) => {
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: getHomeView()
+    view: updateHomeView()
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
@@ -133,6 +133,7 @@ const displayHome = async(user) => {
     console.error('Views.publish API call failed!', result.data);
   }
 };
+
 
 /* Open a modal */
 
@@ -157,7 +158,7 @@ const openModal = async(trigger_id) => {
           "text": "Notes"
         },
         "element": {
-          "action_id": "text",
+          "action_id": "note_text",
           "type": "plain_text_input",
           "placeholder": {
             "type": "plain_text",
@@ -178,24 +179,30 @@ const openModal = async(trigger_id) => {
   const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
   
   if (!result.ok) {
-    console.error('Views.publish API call failed!', result.data);
+    console.error('views.open API call failed!', result.data);
   }
   
 };
 
-/* Botton action from Slack UI */
+
+/* Botton action from App Home UI "Add Note" */
 
 app.post('/slack/actions', async(req, res) => {
   console.log(JSON.parse(req.body.payload));
   
-  const { token, trigger_id, user, actions } = JSON.parse(req.body.payload);
+  const { token, trigger_id, user, actions, type } = JSON.parse(req.body.payload);
  
-  if(actions && actions[0].action_id.match(/add_note/)) {
-
+  if(actions && actions[0].action_id.match(/add_/)) {
     // Open a modal dialog
     openModal(trigger_id);
   } 
+  
+  else if(type === 'view_submission') {
+    const { token, trigger_id, user, state } = JSON.parse(req.body.payload);
+    console.log(state)
+  }
 });
+
 
 
 /* Calling the chat.postMessage method to send a message */
