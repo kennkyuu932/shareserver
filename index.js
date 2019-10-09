@@ -136,10 +136,9 @@ app.post('/slack/actions', async(req, res) => {
   const { token, trigger_id, user, actions } = JSON.parse(req.body.payload);
  
   if(actions && actions[0].action_id.match(/add_note/)) {
-    console.log('Adding a stickie!');
-    
+
     // Open a modal dialog
-    
+    openModal(user);
     
   } else {
     res.sendStatus(200);
@@ -164,33 +163,35 @@ const openModal = async(user) => {
     blocks: [
       {
         "type": "input",
-        "block_id": "title",
+        "block_id": "note",
         "label": {
           "type": "plain_text",
           "text": "Notes"
         },
-        "hint": {
-          "type": "plain_text",
-          "text": "Take a note..."
-        },
         "element": {
           "action_id": "text",
-          "type": "plain_text_input"
+          "type": "plain_text_input",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Take a note..."
+          },
+          "multiline": true
         }
-      },
+      }
     ]
   };
   
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: modal
+    view: JSON.stringify(modal)
   };
   
   const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
+  
   if (!result.ok) {
-            console.error('Views.publish API call failed!', result.data);
-          }
+    console.error('Views.publish API call failed!', result.data);
+  }
   
 };
 
