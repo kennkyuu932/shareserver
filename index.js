@@ -156,10 +156,10 @@ const openModal = async(trigger_id) => {
       type: 'plain_text',
       text: 'Create a stickie note'
     },
-    // submit: {
-    //   type: 'plain_text',
-    //   text: 'Create'
-    // },
+    submit: {
+      type: 'plain_text',
+      text: 'Create'
+    },
     blocks: [
       {
         "type": "input",
