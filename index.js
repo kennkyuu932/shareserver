@@ -133,12 +133,12 @@ app.post('/slack/events', async(req, res) => {
 app.post('/slack/actions', async(req, res) => {
   console.log(JSON.parse(req.body.payload));
   
-  const { token, user, team, actions, message, response_url } = JSON.parse(req.body.payload);
+  const { token, trigger_id, user, actions } = JSON.parse(req.body.payload);
  
   if(actions && actions[0].action_id.match(/add_note/)) {
     console.log('Adding a stickie!');
-    // Send a message
-    //send();
+    
+    // Open a modal dialog
     
     
   } else {
@@ -147,6 +147,19 @@ app.post('/slack/actions', async(req, res) => {
 });
 
 
+/* Open a modal */
+
+const openModal = async(user) => {
+  
+  const args = {
+    token: process.env.SLACK_BOT_TOKEN,
+    user_id: user,
+    view: getHomeView()
+  };
+  
+  const result = await axios.post('https://slack.com/api/chat.postMessage', qs.stringify(args));
+  
+};
 
 /* Calling the chat.postMessage method to send a message */
 
