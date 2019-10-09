@@ -102,22 +102,13 @@ app.post('/slack/events', async(req, res) => {
       
       // Request is verified
       else {
+        
         const {type, user, channel, tab} = req.body.event;
 
         // Trigger when the App Home is opened by a user
         if(type === 'app_home_opened') {
-
-          const args = {
-            token: process.env.SLACK_BOT_TOKEN,
-            user_id: user,
-            view: getHomeView()
-          };
-
-          const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
-
-          if (!result.ok) {
-            console.error('Views.publish API call failed!', result.data);
-          }
+          // Display App Home
+          displayHome(user);
         }
       }
   
@@ -127,24 +118,21 @@ app.post('/slack/events', async(req, res) => {
   }
 });
 
+/* Display App Home */
 
-/* Botton action from Slack UI to dial back the caller */
+const displayHome = async(user) => {
+  const args = {
+    token: process.env.SLACK_BOT_TOKEN,
+    user_id: user,
+    view: getHomeView()
+  };
 
-app.post('/slack/actions', async(req, res) => {
-  console.log(JSON.parse(req.body.payload));
-  
-  const { token, trigger_id, user, actions } = JSON.parse(req.body.payload);
- 
-  if(actions && actions[0].action_id.match(/add_note/)) {
+  const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
 
-    // Open a modal dialog
-    openModal(trigger_id);
-    
-  } else {
-    res.sendStatus(200);
+  if (!result.ok) {
+    console.error('Views.publish API call failed!', result.data);
   }
-});
-
+};
 
 /* Open a modal */
 
@@ -194,6 +182,21 @@ const openModal = async(trigger_id) => {
   }
   
 };
+
+/* Botton action from Slack UI */
+
+app.post('/slack/actions', async(req, res) => {
+  console.log(JSON.parse(req.body.payload));
+  
+  const { token, trigger_id, user, actions } = JSON.parse(req.body.payload);
+ 
+  if(actions && actions[0].action_id.match(/add_note/)) {
+
+    // Open a modal dialog
+    openModal(trigger_id);
+  } 
+});
+
 
 /* Calling the chat.postMessage method to send a message */
 
