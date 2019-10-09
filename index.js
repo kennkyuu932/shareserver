@@ -151,13 +151,46 @@ app.post('/slack/actions', async(req, res) => {
 
 const openModal = async(user) => {
   
+  const modal = {
+    type: 'modal',
+    title: {
+      type: 'plain_text',
+      text: 'Create a stickie note'
+    },
+    submit: {
+      type: 'plain_text',
+      text: 'Create'
+    },
+    blocks: [
+      {
+        "type": "input",
+        "block_id": "title",
+        "label": {
+          "type": "plain_text",
+          "text": "Notes"
+        },
+        "hint": {
+          "type": "plain_text",
+          "text": "Take a note..."
+        },
+        "element": {
+          "action_id": "text",
+          "type": "plain_text_input"
+        }
+      },
+    ]
+  };
+  
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: getHomeView()
+    view: modal
   };
   
-  const result = await axios.post('https://slack.com/api/chat.postMessage', qs.stringify(args));
+  const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
+  if (!result.ok) {
+            console.error('Views.publish API call failed!', result.data);
+          }
   
 };
 
