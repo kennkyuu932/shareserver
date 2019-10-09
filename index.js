@@ -40,8 +40,9 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 const updateHomeView = (data) => {
   
   // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
+  let blocks = [];
   
-  let blocks = [ 
+  blocks = [ 
     {
       "type": "section",
       "text": {
@@ -79,12 +80,15 @@ const updateHomeView = (data) => {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": """
+				"text": `${data.timestamp} \n${data.note}`
 		  }
     };
     
+    const div = {
+			"type": "divider"
+		};
     
-    blocks[0].accessory.text.text = ':iphone: Call Ended';
+    blocks[0].push(el).push(div);
   }
 
   let view = {
