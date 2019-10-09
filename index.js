@@ -37,43 +37,63 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
  * Home View
  */
 
-const updateHomeView = () => {
+const updateHomeView = (data) => {
+  
+  // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
+  
+  let blocks = [ 
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Welcome! This is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
+      },
+      "accessory": {
+        "type": "button",
+        "action_id": "add_note", 
+        "text": {
+          "type": "plain_text",
+          "text": "Add a Stickie",
+          "emoji": true
+        }
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
+        }
+      ]
+    },
+    {
+      "type": "divider"
+    }
+  ];
+  
+  // Append new data - TO-DO - grab the data from DB
+  if(data) {
+    
+    let el = {
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": """
+		  }
+    };
+    
+    
+    blocks[0].accessory.text.text = ':iphone: Call Ended';
+  }
+
   let view = {
     type: 'home',
     title: {
       type: 'plain_text',
       text: 'Keep notes!'
     },
-    blocks: [ // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": "Welcome! This is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
-        },
-        "accessory": {
-          "type": "button",
-          "action_id": "add_note", 
-          "text": {
-            "type": "plain_text",
-            "text": "Add a Stickie",
-            "emoji": true
-          }
-        }
-      },
-      {
-        "type": "context",
-        "elements": [
-          {
-            "type": "mrkdwn",
-            "text": ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
-          }
-        ]
-      },
-      {
-        "type": "divider"
-      }
-    ]
+    blocks: blocks
   }
   
   return JSON.stringify(view);
@@ -205,7 +225,11 @@ app.post('/slack/actions', async(req, res) => {
       timestamp: timestamp,
       note: view.state.values.note.text.value
     }
+    
+    // TO-DO - push the data in db or something
+    
     displayHome(user.id, data);
+    
     
     res.sendStatus(200);
   }
