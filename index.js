@@ -138,7 +138,7 @@ app.post('/slack/actions', async(req, res) => {
   if(actions && actions[0].action_id.match(/add_note/)) {
 
     // Open a modal dialog
-    openModal(user);
+    openModal(trigger_id);
     
   } else {
     res.sendStatus(200);
@@ -148,7 +148,7 @@ app.post('/slack/actions', async(req, res) => {
 
 /* Open a modal */
 
-const openModal = async(user) => {
+const openModal = async(trigger_id) => {
   
   const modal = {
     type: 'modal',
@@ -156,10 +156,10 @@ const openModal = async(user) => {
       type: 'plain_text',
       text: 'Create a stickie note'
     },
-    submit: {
-      type: 'plain_text',
-      text: 'Create'
-    },
+    // submit: {
+    //   type: 'plain_text',
+    //   text: 'Create'
+    // },
     blocks: [
       {
         "type": "input",
@@ -183,7 +183,7 @@ const openModal = async(user) => {
   
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
-    user_id: user,
+    trigger_id: trigger_id,
     view: JSON.stringify(modal)
   };
   
