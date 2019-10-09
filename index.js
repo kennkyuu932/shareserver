@@ -158,7 +158,7 @@ const openModal = async(trigger_id) => {
           "text": "Notes"
         },
         "element": {
-          "action_id": "note_text",
+          "action_id": "text",
           "type": "plain_text_input",
           "placeholder": {
             "type": "plain_text",
@@ -198,8 +198,11 @@ app.post('/slack/actions', async(req, res) => {
   } 
   
   else if(type === 'view_submission') {
-    const { token, trigger_id, user, state } = JSON.parse(req.body.payload);
-    console.log(state)
+    const { view } = JSON.parse(req.body.payload);
+    console.log(view.state.values.note.text.value);
+    let note = view.state.values.note.text.value;
+    const timestamp = Date.now();
+    res.sendStatus(200);
   }
 });
 
