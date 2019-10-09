@@ -49,22 +49,27 @@ const getHomeView = () => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "Hi, my source code is on <https://glitch.com/edit/#!/apphome-demo-note|glitch>!"
+          "text": "Welcome! This is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
+        },
+        "accessory": {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Add a Stickie",
+            "emoji": true
+          },
+          "value": "add_note"
         }
       },
       {
-        type: "actions",
-        elements: [
+        "type": "context",
+        "elements": [
           {
-            type: "button",
-            action_id: "add_note",
-            text: {
-              type: "plain_text",
-              text: "Add a stickie"
-            }
+            "type": "mrkdwn",
+            "text": "my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
           }
         ]
-      },
+      }
     ]
   }
   
@@ -116,6 +121,28 @@ app.post('/slack/events', async(req, res) => {
       break;
     }
     default: { res.sendStatus(404); }
+  }
+});
+
+
+/* Botton action from Slack UI to dial back the caller */
+
+app.post('/slack/actions', async(req, res) => {
+  //console.log(req.body);
+  
+  const { token, user, team, actions, message, response_url } = JSON.parse(req.body.payload);
+ 
+  if(actions && actions[0].action_id.match(/phone_call/)) {
+    
+    // Send a message
+    send();
+    
+    
+    // Render the response as XML in reply to the webhook request
+    res.sendStatus(200);
+    
+  } else {
+    res.sendStatus(200);
   }
 });
 
