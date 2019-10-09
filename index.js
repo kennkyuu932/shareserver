@@ -120,11 +120,11 @@ app.post('/slack/events', async(req, res) => {
 
 /* Display App Home */
 
-const displayHome = async(user) => {
+const displayHome = async(user, data) => {
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: updateHomeView()
+    view: updateHomeView(data)
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
@@ -198,10 +198,15 @@ app.post('/slack/actions', async(req, res) => {
   } 
   
   else if(type === 'view_submission') {
-    const { view } = JSON.parse(req.body.payload);
-    console.log(view.state.values.note.text.value);
-    let note = view.state.values.note.text.value;
-    const timestamp = Date.now();
+    const timestamp = new Date().toISOString();
+    const { user, view } = JSON.parse(req.body.payload);
+
+    const data = {
+      timestamp: timestamp,
+      note: view.state.values.note.text.value
+    }
+    displayHome(user.id, data);
+    
     res.sendStatus(200);
   }
 });
