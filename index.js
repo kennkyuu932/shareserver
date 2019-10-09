@@ -53,12 +53,12 @@ const getHomeView = () => {
         },
         "accessory": {
           "type": "button",
+          "action_id": "add_note", 
           "text": {
             "type": "plain_text",
             "text": "Add a Stickie",
             "emoji": true
-          },
-          "value": "add_note"
+          }
         }
       },
       {
@@ -66,9 +66,12 @@ const getHomeView = () => {
         "elements": [
           {
             "type": "mrkdwn",
-            "text": "my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
+            "text": ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
           }
         ]
+      },
+      {
+        "type": "divider"
       }
     ]
   }
@@ -128,18 +131,15 @@ app.post('/slack/events', async(req, res) => {
 /* Botton action from Slack UI to dial back the caller */
 
 app.post('/slack/actions', async(req, res) => {
-  //console.log(req.body);
+  console.log(JSON.parse(req.body.payload));
   
   const { token, user, team, actions, message, response_url } = JSON.parse(req.body.payload);
  
-  if(actions && actions[0].action_id.match(/phone_call/)) {
-    
+  if(actions && actions[0].action_id.match(/add_note/)) {
+    console.log('Adding a stickie!');
     // Send a message
-    send();
+    //send();
     
-    
-    // Render the response as XML in reply to the webhook request
-    res.sendStatus(200);
     
   } else {
     res.sendStatus(200);
