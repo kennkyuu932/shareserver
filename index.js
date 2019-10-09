@@ -40,36 +40,34 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 const updateHomeView = (data) => {
   
   // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
-  let blocks = [];
-  
-  blocks = [ 
+  let blocks = [ 
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "Welcome! This is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "Welcome! This is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
       },
-      "accessory": {
-        "type": "button",
-        "action_id": "add_note", 
-        "text": {
-          "type": "plain_text",
-          "text": "Add a Stickie",
-          "emoji": true
+      accessory: {
+        type: "button",
+        action_id: "add_note", 
+        text: {
+          type: "plain_text",
+          text: "Add a Stickie",
+          emoji: true
         }
       }
     },
     {
-      "type": "context",
-      "elements": [
+      type: "context",
+      elements: [
         {
-          "type": "mrkdwn",
-          "text": ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
+          type: "mrkdwn",
+          text: ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
         }
       ]
     },
     {
-      "type": "divider"
+      type: "divider"
     }
   ];
   
