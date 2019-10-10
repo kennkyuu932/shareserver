@@ -96,7 +96,7 @@ const updateHomeView = (data) => {
       }
     ];
     
-    blocks.concat(noteBlocks);
+    blocks = blocks.concat(noteBlocks);
   }
 
   let view = {
