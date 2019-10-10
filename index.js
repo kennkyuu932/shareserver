@@ -38,12 +38,13 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 
 /*
- * Home View
+ * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
  */
 
 const updateHomeView = () => {
   
-  // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
+  // Intro message - 
+  
   let blocks = [ 
     {
       type: "section",
@@ -75,17 +76,19 @@ const updateHomeView = () => {
     }
   ];
   
-  // Append new data 
   
-  const data = db.getData('/storage/data');
-  //console.log(data)
+  // Append new data blocks after the intro - 
+  
+  const rawData = db.getData('/storage/data');
+  
+  let data = rawData.reverse(); // Display the newest note first
   
   if(data) {
     let noteBlocks = [];
     
     for (const o of data) {
       
-      let note = [
+      noteBlocks = [
         {
           type: "section",
           text: {
@@ -106,14 +109,14 @@ const updateHomeView = () => {
           type: "divider"
         }
       ];
-      noteBlocks = noteBlocks.concat(note);
+      blocks = blocks.concat(noteBlocks);
     }
     
-    
-    
-    blocks = blocks.concat(noteBlocks.reverse());
+    blocks = blocks.concat(noteBlocks);
   }
 
+  // The final view -
+  
   let view = {
     type: 'home',
     title: {
@@ -261,8 +264,6 @@ app.post('/slack/actions', async(req, res) => {
     res.sendStatus(200);
   }
 });
-
-
 
 
 
