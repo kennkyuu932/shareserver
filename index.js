@@ -250,9 +250,9 @@ app.post('/slack/actions', async(req, res) => {
   } 
   
   else if(type === 'view_submission') {
-    res.sendStatus(200);
+    res.send('');
     
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date();
     const { user, view } = JSON.parse(req.body.payload);
 
     const data = {
