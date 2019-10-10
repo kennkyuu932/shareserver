@@ -4,7 +4,7 @@
  * October 8, 2019
  *
  * This example is written in Vanilla-ish JS (No SDK or Framework)
- * To see how this can be written in Bolt, see 
+ * To see how this can be written in Bolt, see http://...........
  */
 
 const express = require('express');
@@ -115,7 +115,6 @@ const updateHomeView = () => {
       blocks = blocks.concat(noteBlocks);
     }
     
-    blocks = blocks.concat(noteBlocks);
   }
 
   // The final view -
@@ -251,6 +250,8 @@ app.post('/slack/actions', async(req, res) => {
   } 
   
   else if(type === 'view_submission') {
+    res.sendStatus(200);
+    
     const timestamp = new Date().toISOString();
     const { user, view } = JSON.parse(req.body.payload);
 
@@ -263,8 +264,6 @@ app.post('/slack/actions', async(req, res) => {
     db.push('/storage/data[]', data);
     
     await displayHome(user.id, data);
-    
-    res.sendStatus(200);
   }
 });
 
