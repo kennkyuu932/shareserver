@@ -81,28 +81,36 @@ const updateHomeView = () => {
   console.log(data)
   
   if(data) {
+//     let noteBlocks = [];
     
-    let noteBlocks = [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: data.note
-        }
-      },
-      {
-        "type": "context",
-        "elements": [
-          {
-            "type": "mrkdwn",
-            "text": data.timestamp
+//     for (const o of data) {
+//       console.log(o);
+      
+      let noteBlocks = [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: data.note
           }
-        ]
-      },
-      {
-        type: "divider"
-      }
-    ];
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": data.timestamp
+            }
+          ]
+        },
+        {
+          type: "divider"
+        }
+      ];
+    //   blocks = blocks.concat(noteBlocks);
+    // }
+    
+    
     
     blocks = blocks.concat(noteBlocks);
   }
