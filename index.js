@@ -74,31 +74,29 @@ const updateHomeView = (data) => {
   // Append new data - TO-DO - grab the data from DB
   if(data) {
     
-    let content = {
-			type: "section",
-			text: {
-				type: "mrkdwn",
-				text: data.note
-		  }
-    };
+    let noteBlocks = [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: data.note
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": data.timestamp
+          }
+        ]
+      },
+      {
+        type: "divider"
+      }
+    ];
     
-    let date = {
-			"type": "context",
-			"elements": [
-				{
-					"type": "mrkdwn",
-					"text": data.timestamp
-				}
-			]
-		};
-    
-    const div = {
-			type: "divider"
-		};
-    
-    blocks.push(content);
-    blocks.push(date);
-    blocks.push(div);
+    blocks.concat(noteBlocks);
   }
 
   let view = {
