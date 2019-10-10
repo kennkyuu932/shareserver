@@ -77,7 +77,7 @@ const updateHomeView = () => {
   
   // Append new data 
   
-  const data = db.getData('/storage');
+  const data = db.getData('/storage/data[0]');
   console.log(data)
   
   if(data) {
@@ -247,7 +247,7 @@ app.post('/slack/actions', async(req, res) => {
     }
     
     // Store in a local DB
-    db.push('/storage', data);
+    db.push('/storage/data[]', data);
     
     await displayHome(user.id, data);
     
