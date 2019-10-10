@@ -86,6 +86,7 @@ const updateHomeView = () => {
   
   let data = rawData.reverse(); // Display the newest note first
   
+  
   if(data) {
     let noteBlocks = [];
     
@@ -97,6 +98,11 @@ const updateHomeView = () => {
           text: {
             type: "mrkdwn",
             text: o.note
+          },
+          accessory: {
+            type: "image",
+            image_url: `https://cdn.glitch.com/0d5619da-dfb3-451b-9255-5560cd0da50b%2Fstickie_${color}.png`,
+            alt_text: "stickie note"
           }
         },
         {
@@ -202,6 +208,7 @@ const openModal = async(trigger_id) => {
       text: 'Create'
     },
     blocks: [
+      // Text input
       {
         "type": "input",
         "block_id": "note",
@@ -218,7 +225,57 @@ const openModal = async(trigger_id) => {
           },
           "multiline": true
         }
+      },
+      
+      // Drop-down menu
+      {
+        "type": "multi_static_select",
+        "action_id": "note_color",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select a color"
+        },
+        "options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "yellow"
+            },
+            "value": "yellow"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "blue"
+            },
+            "value": "blue"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "green"
+            },
+            "value": "green"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "pink"
+            },
+            "value": "pink"
+          }
+        ],
+        "initial_options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "yellow"
+            },
+            "value": "yellow"
+          }
+        ]
       }
+      
     ]
   };
   
@@ -257,7 +314,8 @@ app.post('/slack/actions', async(req, res) => {
 
     const data = {
       timestamp: timestamp,
-      note: view.state.values.note.text.value
+      note: view.state.values.note.text.value,
+      color: view.state.values.note.color.value
     }
     
     // Store in a local DB
