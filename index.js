@@ -1,7 +1,10 @@
 /* 
- * Slack API Demo
+ * Slack API Demo 
  * This example shows how to ustilize the App Home feature
  * October 8, 2019
+ *
+ * This example is written in Vanilla-ish JS (No SDK or Framework)
+ * To see how this can be written in Bolt, see 
  */
 
 const express = require('express');
