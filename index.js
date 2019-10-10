@@ -8,14 +8,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
 const qs = require('qs');
+const JsonDB = require('node-json-db');
 
 const signature = require('./verifySignature');
 const message = require('./message');
 
-const apiUrl = 'https://dev.slack.com/api';
-
 const app = express();
+const db = new JsonDB('notes', true, false);
 
+const apiUrl = 'https://dev.slack.com/api';
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
@@ -40,7 +41,7 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
  * Home View
  */
 
-const updateHomeView = (data) => {
+const updateHomeView = () => {
   
   // Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
   let blocks = [ 
@@ -74,7 +75,11 @@ const updateHomeView = (data) => {
     }
   ];
   
-  // Append new data - TO-DO - grab the data from DB
+  // Append new data 
+  
+  const data = db.getData('/storage');
+  console.log(data)
+  
   if(data) {
     
     let noteBlocks = [
@@ -241,6 +246,7 @@ app.post('/slack/actions', async(req, res) => {
       note: view.state.values.note.text.value
     }
     
+    // Store in a local DB
     db.push('/storage', data);
     
     await displayHome(user.id, data);
