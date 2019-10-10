@@ -77,14 +77,14 @@ const updateHomeView = () => {
   
   // Append new data 
   
-  const data = db.getData('/storage/data[0]');
+  const data = db.getData('/storage/data');
   console.log(data)
   
   if(data) {
-//     let noteBlocks = [];
+    let noteBlocks = [];
     
-//     for (const o of data) {
-//       console.log(o);
+    for (const o of data) {
+      console.log(o);
       
       let noteBlocks = [
         {
