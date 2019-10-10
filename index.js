@@ -8,14 +8,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
 const qs = require('qs');
-const JsonDB = require('node-json-db');
+
 const signature = require('./verifySignature');
 const message = require('./message');
 
 const apiUrl = 'https://dev.slack.com/api';
 
 const app = express();
-const db = new JsonDB('notes', true, false);
+
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
@@ -241,7 +241,7 @@ app.post('/slack/actions', async(req, res) => {
       note: view.state.values.note.text.value
     }
     
-    // TO-DO - push the data in db or something
+    db.push('/storage', data);
     
     await displayHome(user.id, data);
     
