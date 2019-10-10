@@ -74,19 +74,31 @@ const updateHomeView = (data) => {
   // Append new data - TO-DO - grab the data from DB
   if(data) {
     
-    let el = {
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": `${data.timestamp} \n${data.note}`
+    let content = {
+			type: "section",
+			text: {
+				type: "mrkdwn",
+				text: data.note
 		  }
     };
     
-    const div = {
-			"type": "divider"
+    let date = {
+			"type": "context",
+			"elements": [
+				{
+					"type": "mrkdwn",
+					"text": data.timestamp
+				}
+			]
 		};
     
-    blocks[0].push(el).push(div);
+    const div = {
+			type: "divider"
+		};
+    
+    blocks.push(content);
+    blocks.push(date);
+    blocks.push(div);
   }
 
   let view = {
@@ -230,8 +242,7 @@ app.post('/slack/actions', async(req, res) => {
     
     // TO-DO - push the data in db or something
     
-    displayHome(user.id, data);
-    
+    await displayHome(user.id, data);
     
     res.sendStatus(200);
   }
