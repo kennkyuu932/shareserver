@@ -78,20 +78,19 @@ const updateHomeView = () => {
   // Append new data 
   
   const data = db.getData('/storage/data');
-  console.log(data)
+  //console.log(data)
   
   if(data) {
     let noteBlocks = [];
     
     for (const o of data) {
-      console.log(o);
       
-      let noteBlocks = [
+      let note = [
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: data.note
+            text: o.note
           }
         },
         {
@@ -99,7 +98,7 @@ const updateHomeView = () => {
           "elements": [
             {
               "type": "mrkdwn",
-              "text": data.timestamp
+              "text": o.timestamp
             }
           ]
         },
@@ -107,12 +106,12 @@ const updateHomeView = () => {
           type: "divider"
         }
       ];
-    //   blocks = blocks.concat(noteBlocks);
-    // }
+      noteBlocks = noteBlocks.concat(note);
+    }
     
     
     
-    blocks = blocks.concat(noteBlocks);
+    blocks = blocks.concat(noteBlocks.reverse());
   }
 
   let view = {
