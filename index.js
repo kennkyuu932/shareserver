@@ -8,12 +8,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
 const qs = require('qs');
+const JsonDB = require('node-json-db');
 const signature = require('./verifySignature');
 const message = require('./message');
 
 const apiUrl = 'https://dev.slack.com/api';
 
 const app = express();
+const db = new JsonDB('notes', true, false);
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
