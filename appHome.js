@@ -124,13 +124,16 @@ const displayHome = async(user, data) => {
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: updateView(user  )
+    view: updateView(user)
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
 
   try {
-    //console.log(result.data);
+    if(result.data.error) {
+      console.log(result.data.error);
+      console.log(result.data.response_metadata);
+    }
   } catch(e) {
     console.log(e);
   }
