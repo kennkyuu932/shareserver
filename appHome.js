@@ -54,9 +54,12 @@ const updateView = (user) => {
   
   try {
     const rawData = db.getData(`/${user}/data`);
+console.log(rawData);
+console.log('---');
     newData = rawData.reverse(); // Display the newest note first
- 
-    newData.slice(0, 2);
+ console.log(newData);
+console.log('===');
+    newData = newData.slice(0, 2);
 
   } catch(error) {
     //console.error(error);
