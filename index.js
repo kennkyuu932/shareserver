@@ -71,6 +71,9 @@ app.post('/slack/events', async(req, res) => {
           appHome.displayHome(user);
         }
         
+        /* 
+         * If you want to allow user to create a note from DM, uncomment the part! 
+
         // Triggered when the bot gets a DM
         else if(type === 'message') {
           
@@ -89,8 +92,8 @@ app.post('/slack/events', async(req, res) => {
             message.send(channel, text);
           }
         }
+        */
       }
-  
       break;
     }
     default: { res.sendStatus(404); }
