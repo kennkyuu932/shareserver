@@ -74,21 +74,20 @@ app.post('/slack/events', async(req, res) => {
         // Triggered when the bot gets a DM
         else if(type === 'message') {
           
-          if(subtype !== 'bot_message') {
+          if(subtype !== 'bot_message') { 
             
-            // DM back to the user 
-            message.send(channel);
-            
-            // ...then create a note from the text with a default color
+            // Create a note from the text with a default color
             const timestamp = new Date();
             const data = {
               timestamp: timestamp,
               note: text,
               color: 'yellow'
             }
-            appHome.displayHome(user, data);
+            await appHome.displayHome(user, data);
+                                         
+            // DM back to the user 
+            message.send(channel, text);
           }
-          else {console.log(subtype)}
         }
       }
   
