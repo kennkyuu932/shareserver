@@ -229,58 +229,73 @@ const openModal = async(trigger_id) => {
       
       // Drop-down menu      
       {
-        "type": "actions",
-        "block_id": "note02",
-        "placeholder": {
-          "type": "plain_text",
-          "text": "Select a color"
+        "type": "input",
+        "element": {
+          "type": "static_select",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select a color",
+          }
         },
-        "elements": [
-        {
-          "type": "multi_static_select",
-          "action_id": "color",
-          "options": [
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "yellow"
-              },
-              "value": "yellow"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "blue"
-              },
-              "value": "blue"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "green"
-              },
-              "value": "green"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "pink"
-              },
-              "value": "pink"
-            }
-          ],
-          "initial_options": [
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "yellow"
-              },
-              "value": "yellow"
-            }
-          ]
+        "label": {
+          "type": "plain_text",
+          "text": "Label",
+          "emoji": true
         }
       }
-      
+      // {
+      //   "type": "input",
+      //   "block_id": "note02",
+      //   "elements": [
+      //     {
+      //       "type": "static_select",
+      //       "action_id": "color",
+      //       "placeholder": {
+      //         "type": "plain_text",
+      //         "text": "Select a color"
+      //       },
+      //       "options": [
+      //         {
+      //           "text": {
+      //             "type": "plain_text",
+      //             "text": "yellow"
+      //           },
+      //           "value": "yellow"
+      //         },
+      //         {
+      //           "text": {
+      //             "type": "plain_text",
+      //             "text": "blue"
+      //           },
+      //           "value": "blue"
+      //         },
+      //         {
+      //           "text": {
+      //             "type": "plain_text",
+      //             "text": "green"
+      //           },
+      //           "value": "green"
+      //         },
+      //         {
+      //           "text": {
+      //             "type": "plain_text",
+      //             "text": "pink"
+      //           },
+      //           "value": "pink"
+      //         }
+      //       ],
+      //       "initial_options": [
+      //         {
+      //           "text": {
+      //             "type": "plain_text",
+      //             "text": "yellow"
+      //           },
+      //           "value": "yellow"
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // }
     ]
   };
   
@@ -319,8 +334,8 @@ app.post('/slack/actions', async(req, res) => {
 
     const data = {
       timestamp: timestamp,
-      note: view.state.values.note.content.value,
-      color: view.state.values.note.color.value
+      note: view.state.values.note01.content.value,
+      color: view.state.values.note02.color.value
     }
     
     // Store in a local DB
