@@ -2,18 +2,15 @@ const axios = require('axios');
 const qs = require('qs');
 
 const JsonDB = require('node-json-db');
-const db = new JsonDB('notes', true, false);
+const config = require('node-json-db/dist/lib/JsonDBConfig');
 
-const storage = require('node-persist');
+const db = new JsonDB(new config('noteDB', true, false, '/'));
+
 
 const apiUrl = 'https://dev.slack.com/api';
 
 //db.delete("/");
 
-
-const init = async() => {
-  await storage.init();
-}
 
 /*
  * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
@@ -62,14 +59,12 @@ const updateView = async(user) => {
   
   try {
     const rawData = db.getData(`/${user}/data`);
-    const dbData = await storage.getItem(user);
     
-console.log(dbData);
+console.log(rawData);
 console.log('---');
     
     newData = rawData.reverse(); // Display the newest note first
-    reverseData = dbData.reverse();
- console.log(reverseData);
+ console.log(newData);
 console.log('===');
     
     newData = newData.slice(0, 2);
@@ -117,7 +112,7 @@ console.log('===');
           type: "divider"
         }
       ];
-      //blocks = blocks.concat(noteBlocks);
+      blocks = blocks.concat(noteBlocks);
     
     }
     
@@ -146,7 +141,6 @@ const displayHome = async(user, data) => {
   if(data) {     
     // Store in a local DB
     db.push(`/${user}/data[]`, data);   
-    await storage.setItem(user, data);
   }
 
   const args = {
@@ -263,4 +257,4 @@ const openModal = async(trigger_id) => {
 
 
 
-module.exports = { init, displayHome, openModal };
+module.exports = { displayHome, openModal };
