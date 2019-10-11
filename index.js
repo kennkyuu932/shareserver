@@ -85,7 +85,7 @@ app.post('/slack/events', async(req, res) => {
             note: text,
             color: 'yellow'
           }
-          appHome.displayHome(user, data);
+          //appHome.displayHome(user, data);
         }
       }
   

@@ -1,7 +1,7 @@
 const axios = require('axios'); 
 const qs = require('qs');
 
-const apiUrl = 'https://slack.com/api';
+const apiUrl = 'https://dev.slack.com/api';
 
 /*
  *  Handling DM messages
@@ -22,7 +22,6 @@ const send = async(channel) => {
   
   try {
     console.log(result.data);
-    const ts = result.data.ts;
   } catch(e) {
     console.log(e);
   }
