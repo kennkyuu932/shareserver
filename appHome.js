@@ -6,6 +6,8 @@ const db = new JsonDB('notes', true, false);
 
 const apiUrl = 'https://dev.slack.com/api';
 
+//db.delete("/storage");
+
 /*
  * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
  */
@@ -51,7 +53,6 @@ const updateView = () => {
   const rawData = db.getData('/storage/data');
   
   let data = rawData.reverse(); // Display the newest note first
-  
   
   if(data) {
     let noteBlocks = [];
@@ -109,9 +110,12 @@ const updateView = () => {
 /* Display App Home */
 
 const displayHome = async(user, data) => {
-  // Store in a local DB
-  db.push('/storage/data[]', data);
   
+  if(data) {     
+    // Store in a local DB
+    db.push('/storage/data[]', data);   
+  }
+
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
