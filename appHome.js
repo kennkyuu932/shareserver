@@ -130,7 +130,7 @@ const displayHome = async(user, data) => {
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
 
   try {
-    //console.log(result.data);
+    console.log(result.data);
   } catch(e) {
     console.log(e);
   }

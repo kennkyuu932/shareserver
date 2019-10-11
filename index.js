@@ -63,7 +63,7 @@ app.post('/slack/events', async(req, res) => {
       // Request is verified
       else {
         
-        const {type, user, channel, tab, text} = req.body.event;
+        const {type, user, channel, tab, text, subtype} = req.body.event;
 
         // Triggered when the App Home is opened by a user
         if(type === 'app_home_opened') {
@@ -73,19 +73,22 @@ app.post('/slack/events', async(req, res) => {
         
         // Triggered when the bot gets a DM
         else if(type === 'message') {
-          console.log(req.body.event);
           
-          // DM back to the user 
-          message.send(channel);
-          
-          // ...then create a note from the text with a default color
-          const timestamp = new Date();
-          const data = {
-            timestamp: timestamp,
-            note: text,
-            color: 'yellow'
+          if(subtype !== 'bot_message') {
+            
+            // DM back to the user 
+            message.send(channel);
+            
+            // ...then create a note from the text with a default color
+            const timestamp = new Date();
+            const data = {
+              timestamp: timestamp,
+              note: text,
+              color: 'yellow'
+            }
+            appHome.displayHome(user, data);
           }
-          //appHome.displayHome(user, data);
+          else {console.log(subtype)}
         }
       }
   

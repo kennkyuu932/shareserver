@@ -18,7 +18,7 @@ const send = async(channel) => {
     text: ':wave: Hey, I am creating a note from your message! The note will be stored in my _Home_!'
   };
   
-  const result = await axios.post(`{$apiUrl}chat.postMessage`, qs.stringify(args));
+  const result = await axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(args));
   
   try {
     console.log(result.data);
