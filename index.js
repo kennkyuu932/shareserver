@@ -121,11 +121,11 @@ app.post('/slack/actions', async(req, res) => {
   else if(type === 'view_submission') {
     res.send(''); // Make sure to respond to the server to avoid an error
     
-    const timestamp = new Date();
+    const ts = new Date();
     const { user, view } = JSON.parse(req.body.payload);
 
     const data = {
-      timestamp: timestamp,
+      timestamp: ts.toLocaleString(),
       note: view.state.values.note01.content.value,
       color: view.state.values.note02.color.selected_option.value
     }
