@@ -2,9 +2,7 @@ const axios = require('axios');
 const qs = require('qs');
 
 const JsonDB = require('node-json-db');
-const Config = require('node-json-db/dist/lib/JsonDBConfig');
-
-const db = new JsonDB(new Config('noteDB', true, false, '/'));
+const db = new JsonDB('notes', true, false);
 
 
 const apiUrl = 'https://dev.slack.com/api';
@@ -58,7 +56,7 @@ const updateView = async(user) => {
   let reverseData = {};
   
   try {
-    const rawData = db.getData(`/${user}/data`);
+    const rawData = db.getData(`/${user}/data/`);
     
 console.log(rawData);
 console.log('---');
