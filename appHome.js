@@ -55,6 +55,9 @@ const updateView = (user) => {
   try {
     const rawData = db.getData(`/${user}/data`);
     newData = rawData.reverse(); // Display the newest note first
+ 
+    newData.slice(0, 2);
+
   } catch(error) {
     //console.error(error);
   };
@@ -63,6 +66,7 @@ const updateView = (user) => {
     let noteBlocks = [];
     
     for (const o of newData) {
+      
       const color = (o.color) ? o.color : 'yellow';
       
       let note = o.note;
@@ -98,6 +102,7 @@ const updateView = (user) => {
         }
       ];
       blocks = blocks.concat(noteBlocks);
+    
     }
     
   }
