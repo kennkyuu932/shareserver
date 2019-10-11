@@ -2,9 +2,9 @@ const axios = require('axios');
 const qs = require('qs');
 
 const JsonDB = require('node-json-db');
-const config = require('node-json-db/dist/lib/JsonDBConfig');
+const Config = require('node-json-db/dist/lib/JsonDBConfig');
 
-const db = new JsonDB(new config('noteDB', true, false, '/'));
+const db = new JsonDB(new Config('noteDB', true, false, '/'));
 
 
 const apiUrl = 'https://dev.slack.com/api';

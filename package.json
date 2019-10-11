@@ -1,7 +1,7 @@
 {
-  "name": "apphome-demo-keep",
+  "name": "apphome-demo-note",
   "version": "0.0.1",
-  "description": "KeepNotes app to demonstrate App Home feature.",
+  "description": "Stickie note app to demonstrate App Home feature.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -12,8 +12,7 @@
     "qs": "^6.9.0",
     "axios": "^0.19.0",
     "tsscmp": "^1.0.6",
-    "node-json-db": "^1.0.1",
-    "node-persist": "^3.0.5"
+    "node-json-db": "^1.0.1" 
   },
   "engines": {
     "node": "8.x"
