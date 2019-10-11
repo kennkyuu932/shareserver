@@ -1,7 +1,7 @@
 const axios = require('axios'); 
 const qs = require('qs');
 
-const apiUrl = 'https://dev.slack.com/api';
+const apiUrl = 'https://slack.com/api';
 
 /*
  *  Handling DM messages
@@ -18,7 +18,7 @@ const send = async(blocks, channel) => {
     blocks: blocks
   };
   
-  const result = await axios.post('https://slack.com/api/chat.postMessage', qs.stringify(args));
+  const result = await axios.post(`{$apiUrl}chat.postMessage`, qs.stringify(args));
   
   try {
     console.log(result.data);

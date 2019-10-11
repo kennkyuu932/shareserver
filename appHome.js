@@ -1,5 +1,9 @@
 const axios = require('axios'); 
 const qs = require('qs');
+
+const JsonDB = require('node-json-db');
+const db = new JsonDB('notes', true, false);
+
 const apiUrl = 'https://dev.slack.com/api';
 
 /*
@@ -105,10 +109,13 @@ const updateView = () => {
 /* Display App Home */
 
 const displayHome = async(user, data) => {
+  // Store in a local DB
+  db.push('/storage/data[]', data);
+  
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: updateView(data)
+    view: updateView()
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));

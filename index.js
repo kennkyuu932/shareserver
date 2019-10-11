@@ -11,14 +11,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
 const qs = require('qs');
-const JsonDB = require('node-json-db');
 
 const signature = require('./verifySignature');
 const appHome = require('./appHome');
 const message = require('./message');
 
 const app = express();
-const db = new JsonDB('notes', true, false);
 
 const apiUrl = 'https://dev.slack.com/api';
 
@@ -38,8 +36,6 @@ const rawBodyBuffer = (req, res, buf, encoding) => {
 
 app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
 app.use(bodyParser.json({ verify: rawBodyBuffer }));
-
-
 
 
 
@@ -205,10 +201,7 @@ app.post('/slack/actions', async(req, res) => {
       color: view.state.values.note02.color.selected_option.value
     }
     
-    // Store in a local DB
-    db.push('/storage/data[]', data);
-    
-    await appHome.displayHome(user.id, data);
+    appHome.displayHome(user.id, data);
   }
 });
 
