@@ -67,7 +67,7 @@ const updateView = (user) => {
       
       let note = o.note;
       if (note.length > 2999) {
-        note = note.substr(0, 2983) + '... _(truncated)_'
+        note = note.substr(0, 2980) + '... _(truncated)_'
         console.log(note.length);
       }
             
@@ -168,14 +168,14 @@ const openModal = async(trigger_id) => {
         "block_id": "note01",
         "label": {
           "type": "plain_text",
-          "text": "Notes"
+          "text": "Note"
         },
         "element": {
           "action_id": "content",
           "type": "plain_text_input",
           "placeholder": {
             "type": "plain_text",
-            "text": "Take a note..."
+            "text": "Take a note... \n(Text longer than 3000 characters will be truncated!)"
           },
           "multiline": true
         }
