@@ -91,7 +91,8 @@ const updateHomeView = () => {
     let noteBlocks = [];
     
     for (const o of data) {
-      
+      const color = (o.color) ? (o.color) : 'yellow';
+            
       noteBlocks = [
         {
           type: "section",
@@ -230,72 +231,47 @@ const openModal = async(trigger_id) => {
       // Drop-down menu      
       {
         "type": "input",
-        "element": {
-          "type": "static_select",
-          "placeholder": {
-            "type": "plain_text",
-            "text": "Select a color",
-          }
-        },
+        "block_id": "note02",
         "label": {
           "type": "plain_text",
-          "text": "Label",
-          "emoji": true
+          "text": "Color",
+        },
+        "element": {
+          "type": "static_select",
+          "action_id": "color",
+          "options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "yellow"
+              },
+              "value": "yellow"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "blue"
+              },
+              "value": "blue"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "green"
+              },
+              "value": "green"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "pink"
+              },
+              "value": "pink"
+            }
+          ]
         }
+      
       }
-      // {
-      //   "type": "input",
-      //   "block_id": "note02",
-      //   "elements": [
-      //     {
-      //       "type": "static_select",
-      //       "action_id": "color",
-      //       "placeholder": {
-      //         "type": "plain_text",
-      //         "text": "Select a color"
-      //       },
-      //       "options": [
-      //         {
-      //           "text": {
-      //             "type": "plain_text",
-      //             "text": "yellow"
-      //           },
-      //           "value": "yellow"
-      //         },
-      //         {
-      //           "text": {
-      //             "type": "plain_text",
-      //             "text": "blue"
-      //           },
-      //           "value": "blue"
-      //         },
-      //         {
-      //           "text": {
-      //             "type": "plain_text",
-      //             "text": "green"
-      //           },
-      //           "value": "green"
-      //         },
-      //         {
-      //           "text": {
-      //             "type": "plain_text",
-      //             "text": "pink"
-      //           },
-      //           "value": "pink"
-      //         }
-      //       ],
-      //       "initial_options": [
-      //         {
-      //           "text": {
-      //             "type": "plain_text",
-      //             "text": "yellow"
-      //           },
-      //           "value": "yellow"
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
     ]
   };
   
@@ -335,7 +311,7 @@ app.post('/slack/actions', async(req, res) => {
     const data = {
       timestamp: timestamp,
       note: view.state.values.note01.content.value,
-      color: view.state.values.note02.color.value
+      color: (view.state.values.note02.color.value)
     }
     
     // Store in a local DB
@@ -344,8 +320,6 @@ app.post('/slack/actions', async(req, res) => {
     await displayHome(user.id, data);
   }
 });
-
-
 
 
 
