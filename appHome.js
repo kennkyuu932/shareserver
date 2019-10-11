@@ -50,14 +50,19 @@ const updateView = () => {
   
   // Append new data blocks after the intro - 
   
-  const rawData = db.getData('/storage/data');
+  let newData = [];
   
-  let data = rawData.reverse(); // Display the newest note first
+  try {
+    const rawData = db.getData('/storage/data');
+    newData = rawData.reverse(); // Display the newest note first
+  } catch(error) {
+      console.error(error);
+  };
   
-  if(data) {
+  if(newData) {
     let noteBlocks = [];
     
-    for (const o of data) {
+    for (const o of newData) {
       const color = (o.color) ? o.color : 'yellow';
             
       noteBlocks = [
