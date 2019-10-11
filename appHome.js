@@ -6,7 +6,7 @@ const db = new JsonDB('notes', true, false);
 
 const apiUrl = 'https://dev.slack.com/api';
 
-//db.delete("/");
+db.delete("/");
 
 /*
  * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
@@ -64,13 +64,19 @@ const updateView = (user) => {
     
     for (const o of newData) {
       const color = (o.color) ? o.color : 'yellow';
+      
+      let note = o.note;
+      console.log(note.kength)
+      if (note.length > 2999) {
+        note = note.substr(0, 2998) + '&hellip;'
+      }
             
       noteBlocks = [
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: o.note
+            text: note
           },
           accessory: {
             type: "image",
