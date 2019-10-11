@@ -58,7 +58,7 @@ const updateView = async(user) => {
   // Append new data blocks after the intro - 
   
   let newData = [];
-  //let reverseData = [];
+  let reverseData = {};
   
   try {
     const rawData = db.getData(`/${user}/data`);
@@ -68,7 +68,7 @@ console.log(dbData);
 console.log('---');
     
     newData = rawData.reverse(); // Display the newest note first
-    const reverseData = dbData.reverse();
+    reverseData = dbData.reverse();
  console.log(reverseData);
 console.log('===');
     
