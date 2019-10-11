@@ -8,7 +8,7 @@ const storage = require('node-persist');
 
 const apiUrl = 'https://dev.slack.com/api';
 
-d//b.delete("/");
+//db.delete("/");
 
 
 const init = async() => {
@@ -19,7 +19,7 @@ const init = async() => {
  * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
  */
 
-const updateView = (user) => {
+const updateView = async(user) => {
   
   // Intro message - 
   
@@ -58,15 +58,20 @@ const updateView = (user) => {
   // Append new data blocks after the intro - 
   
   let newData = [];
+  //let reverseData = [];
   
   try {
     const rawData = db.getData(`/${user}/data`);
-    await storage.getItem(${user});
-console.log(rawData);
+    const dbData = await storage.getItem(user);
+    
+console.log(dbData);
 console.log('---');
+    
     newData = rawData.reverse(); // Display the newest note first
- console.log(newData);
+    const reverseData = dbData.reverse();
+ console.log(reverseData);
 console.log('===');
+    
     newData = newData.slice(0, 2);
 
   } catch(error) {
@@ -112,7 +117,7 @@ console.log('===');
           type: "divider"
         }
       ];
-      blocks = blocks.concat(noteBlocks);
+      //blocks = blocks.concat(noteBlocks);
     
     }
     
@@ -141,13 +146,13 @@ const displayHome = async(user, data) => {
   if(data) {     
     // Store in a local DB
     db.push(`/${user}/data[]`, data);   
-    await storage.setItem(`${user}`,data);
+    await storage.setItem(user, data);
   }
 
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: updateView(user)
+    view: await updateView(user)
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
@@ -258,4 +263,4 @@ const openModal = async(trigger_id) => {
 
 
 
-module.exports = { displayHome, openModal };
+module.exports = { init, displayHome, openModal };
