@@ -63,12 +63,19 @@ app.post('/slack/events', async(req, res) => {
       // Request is verified
       else {
         
-        const {type, user, channel, tab} = req.body.event;
+        const {type, user, channel, tab, text} = req.body.event;
 
-        // Trigger when the App Home is opened by a user
+        // Triggered when the App Home is opened by a user
         if(type === 'app_home_opened') {
           // Display App Home
           appHome.displayHome(user);
+        }
+        
+        // Triggered when the bot gets a DM
+        else if(type === 'message') {
+          console.log(req.body.event);
+          
+          // DM back to the user and create a note from the text with a default color
         }
       }
   
