@@ -1,7 +1,7 @@
 /* 
  * Slack API Demo 
  * This example shows how to ustilize the App Home feature
- * October 8, 2019
+ * October 11, 2019
  *
  * This example is written in Vanilla-ish JS (No SDK or Framework)
  * To see how this can be written in Bolt, see http://...........
@@ -60,7 +60,7 @@ app.post('/slack/events', async(req, res) => {
         return;
       } 
       
-      // Request is verified
+      // Request is verified --
       else {
         
         const {type, user, channel, tab, text, subtype} = req.body.event;
@@ -107,17 +107,19 @@ app.post('/slack/events', async(req, res) => {
  */
 
 app.post('/slack/actions', async(req, res) => {
-  console.log(JSON.parse(req.body.payload));
+  //console.log(JSON.parse(req.body.payload));
   
   const { token, trigger_id, user, actions, type } = JSON.parse(req.body.payload);
  
+  // Button with "add_" action_id clicked --
   if(actions && actions[0].action_id.match(/add_/)) {
- 
+    // Open a modal window with forms to be submitted by a user
     appHome.openModal(trigger_id);
   } 
   
+  // Modal forms submitted --
   else if(type === 'view_submission') {
-    res.send('');
+    res.send(''); // Make sure to respond to the server to avoid an error
     
     const timestamp = new Date();
     const { user, view } = JSON.parse(req.body.payload);
@@ -141,5 +143,5 @@ const server = app.listen(5000, () => {
 
 
 app.get('/', async(req, res) => {
-  res.send('To view the sample code, go to');
+  res.send('There is no web UI for this code sample. To view the source code, click "View Source"');
 });
