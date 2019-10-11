@@ -1,8 +1,6 @@
 const axios = require('axios'); 
 const qs = require('qs');
-
-const JsonDB = require('node-json-db');
-const db = new JsonDB('notes', true, false);
+const storage = require('node-persist');
 
 const apiUrl = 'https://dev.slack.com/api';
 
@@ -125,6 +123,7 @@ const displayHome = async(user, data) => {
   if(data) {     
     // Store in a local DB
     db.push(`/${user}/data[]`, data);   
+    await storage.setItem(`/${user}/`, data)
   }
 
   const args = {
@@ -240,5 +239,8 @@ const openModal = async(trigger_id) => {
 };
 
 
+const storageInit = async() => {
+  await storage.init();
+};
 
 module.exports = { displayHome, openModal };
