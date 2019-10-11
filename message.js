@@ -10,12 +10,12 @@ const apiUrl = 'https://slack.com/api';
 
 /* Calling the chat.postMessage method to send a message */
 
-const send = async(text, channel) => { 
+const send = async(channel) => { 
 
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     channel: channel,
-    text: `Hey, I am creating a note ${text}`
+    text: ':wave: Hey, I am creating a note from your message! The note will be stored in my _Home_!'
   };
   
   const result = await axios.post(`{$apiUrl}chat.postMessage`, qs.stringify(args));

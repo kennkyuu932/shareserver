@@ -57,7 +57,7 @@ const updateView = () => {
     let noteBlocks = [];
     
     for (const o of data) {
-      const color = (o.color) ? (o.color) : 'yellow';
+      const color = (o.color) ? o.color : 'yellow';
             
       noteBlocks = [
         {

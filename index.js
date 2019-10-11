@@ -75,7 +75,17 @@ app.post('/slack/events', async(req, res) => {
         else if(type === 'message') {
           console.log(req.body.event);
           
-          // DM back to the user and create a note from the text with a default color
+          // DM back to the user 
+          message.send(channel);
+          
+          // ...then create a note from the text with a default color
+          const timestamp = new Date();
+          const data = {
+            timestamp: timestamp,
+            note: text,
+            color: 'yellow'
+          }
+          appHome.displayHome(user, data);
         }
       }
   
