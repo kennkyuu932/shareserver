@@ -4,9 +4,16 @@ const qs = require('qs');
 const JsonDB = require('node-json-db');
 const db = new JsonDB('notes', true, false);
 
+const storage = require('node-persist');
+
 const apiUrl = 'https://dev.slack.com/api';
 
-//db.delete("/");
+d//b.delete("/");
+
+
+const init = async() => {
+  await storage.init();
+}
 
 /*
  * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
@@ -54,6 +61,7 @@ const updateView = (user) => {
   
   try {
     const rawData = db.getData(`/${user}/data`);
+    await storage.getItem(${user});
 console.log(rawData);
 console.log('---');
     newData = rawData.reverse(); // Display the newest note first
@@ -133,6 +141,7 @@ const displayHome = async(user, data) => {
   if(data) {     
     // Store in a local DB
     db.push(`/${user}/data[]`, data);   
+    await storage.setItem(`${user}`,data);
   }
 
   const args = {
