@@ -211,13 +211,13 @@ const openModal = async(trigger_id) => {
       // Text input
       {
         "type": "input",
-        "block_id": "note",
+        "block_id": "note01",
         "label": {
           "type": "plain_text",
           "text": "Notes"
         },
         "element": {
-          "action_id": "text",
+          "action_id": "content",
           "type": "plain_text_input",
           "placeholder": {
             "type": "plain_text",
@@ -227,53 +227,58 @@ const openModal = async(trigger_id) => {
         }
       },
       
-      // Drop-down menu
+      // Drop-down menu      
       {
-        "type": "multi_static_select",
-        "action_id": "note_color",
+        "type": "actions",
+        "block_id": "note02",
         "placeholder": {
           "type": "plain_text",
           "text": "Select a color"
         },
-        "options": [
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "yellow"
+        "elements": [
+        {
+          "type": "multi_static_select",
+          "action_id": "color",
+          "options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "yellow"
+              },
+              "value": "yellow"
             },
-            "value": "yellow"
-          },
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "blue"
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "blue"
+              },
+              "value": "blue"
             },
-            "value": "blue"
-          },
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "green"
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "green"
+              },
+              "value": "green"
             },
-            "value": "green"
-          },
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "pink"
-            },
-            "value": "pink"
-          }
-        ],
-        "initial_options": [
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "yellow"
-            },
-            "value": "yellow"
-          }
-        ]
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "pink"
+              },
+              "value": "pink"
+            }
+          ],
+          "initial_options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "yellow"
+              },
+              "value": "yellow"
+            }
+          ]
+        }
       }
       
     ]
@@ -314,7 +319,7 @@ app.post('/slack/actions', async(req, res) => {
 
     const data = {
       timestamp: timestamp,
-      note: view.state.values.note.text.value,
+      note: view.state.values.note.content.value,
       color: view.state.values.note.color.value
     }
     
