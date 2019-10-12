@@ -7,7 +7,7 @@ const db = new JsonDB('notes', true, false);
 
 const apiUrl = 'https://dev.slack.com/api';
 
-//db.delete("/");
+db.delete("/");
 
 
 /*
@@ -57,17 +57,17 @@ const updateView = async(user) => {
   try {
     const rawData = db.getData(`/${user}/data/`);
     
-console.log(JSON.parse(rawData));
+    console.log(rawData);
 console.log('---');
     
-    newData = rawData.reverse(); // Display the newest note first
- console.log(newData);
-console.log('===');
+//     newData = rawData.reverse(); // Display the newest note first
+//  console.log(newData);
+// console.log('===');
     
     newData = newData.slice(0, 50); // Just display 50
 
   } catch(error) {
-    console.error(error);
+    //console.error(error); 
   };
   
   if(newData) {
