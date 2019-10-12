@@ -53,22 +53,21 @@ const updateView = async(user) => {
   // Append new data blocks after the intro - 
   
   let newData = [];
-  let reverseData = {};
   
   try {
     const rawData = db.getData(`/${user}/data/`);
     
-console.log(rawData);
+console.log(JSON.parse(rawData));
 console.log('---');
     
     newData = rawData.reverse(); // Display the newest note first
  console.log(newData);
 console.log('===');
     
-    newData = newData.slice(0, 2);
+    newData = newData.slice(0, 50); // Just display 50
 
   } catch(error) {
-    //console.error(error);
+    console.error(error);
   };
   
   if(newData) {
@@ -138,7 +137,7 @@ const displayHome = async(user, data) => {
   
   if(data) {     
     // Store in a local DB
-    db.push(`/${user}/data[]`, data);   
+    db.push(`/${user}/data[]`, data, true);   
   }
 
   const args = {
