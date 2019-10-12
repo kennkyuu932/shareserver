@@ -23,7 +23,7 @@ const updateView = async(user) => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Welcome!* \nThis is a home for Stickers app. You can add small notes here by clicking the button, or DM-ing me."
+        text: "*Welcome!* \nThis is a home for Stickers app. You can add small notes here!"
       },
       accessory: {
         type: "button",
