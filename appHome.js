@@ -57,16 +57,8 @@ const updateView = async(user) => {
   try {
     const rawData = db.getData(`/${user}/data/`);
     
-    console.log(rawData);
-console.log('---');
-    
-     newData = rawData;
-//     newData = newData.reverse(); // Display the newest note first
- 
-//     console.log(newData);
-// console.log('===');
-    
-    newData = newData.slice(0, 50); // Just display 50
+    newData = rawData.slice().reverse(); // Reverse to make the latest first
+    newData = newData.slice(0, 50); // Just display 20. BlockKit display has some limit.
 
   } catch(error) {
     //console.error(error); 
