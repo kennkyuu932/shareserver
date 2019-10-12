@@ -3,7 +3,7 @@
  * This example shows how to ustilize the App Home feature
  * October 11, 2019
  *
- * This example is written in Vanilla-ish JS (No SDK or Framework)
+ * This example is written in Vanilla-ish JS with Express (No Slack SDK or Framework)
  * To see how this can be written in Bolt, see http://...........
  */
 
