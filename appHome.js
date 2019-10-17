@@ -5,7 +5,7 @@ const JsonDB = require('node-json-db');
 const db = new JsonDB('notes', true, false);
 
 
-const apiUrl = 'https://dev.slack.com/api';
+const apiUrl = 'https://slack.com/api';
 
 //db.delete("/");
 
@@ -145,7 +145,6 @@ const displayHome = async(user, data) => {
   try {
     if(result.data.error) {
       console.log(result.data.error);
-      console.log(result.data.response_metadata);
     }
   } catch(e) {
     console.log(e);

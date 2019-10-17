@@ -18,7 +18,7 @@ const message = require('./message');
 
 const app = express();
 
-const apiUrl = 'https://dev.slack.com/api';
+const apiUrl = 'https://slack.com/api';
 
 /*
  * Parse application/x-www-form-urlencoded && application/json

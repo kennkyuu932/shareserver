@@ -1,7 +1,7 @@
 const axios = require('axios'); 
 const qs = require('qs');
 
-const apiUrl = 'https://dev.slack.com/api';
+const apiUrl = 'https://slack.com/api';
 
 /*
  *  Handling DM messages
