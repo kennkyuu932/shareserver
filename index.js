@@ -4,7 +4,7 @@
  * October 11, 2019
  *
  * This example is written in Vanilla-ish JS with Express (No Slack SDK or Framework)
- * To see how this can be written in Bolt, see http://...........
+ * To see how this can be written in Bolt, https://glitch.com/edit/#!/apphome-bolt-demo-note
  */
 
 const express = require('express');
