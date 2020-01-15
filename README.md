@@ -1,6 +1,10 @@
 # Slack App Demo 
 Leveraging the App Home feature
 
+- The sample code with no Bolt (Node w/ Express): this repo
+- The sample code with Slack **Bolt**: https://glitch.com/edit/#!/apphome-bolt-demo-note
+
+
 _Last updated: October, 2019_
 
 ---
