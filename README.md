@@ -4,8 +4,8 @@ Leveraging the App Home feature
 - The sample code with no Bolt (Node w/ Express): this repo
 - The sample code with Slack **Bolt**: https://glitch.com/edit/#!/apphome-bolt-demo-note
 
-
-_Last updated: October, 2019_
+_Updated: January, 2020_<br>
+_Published October, 2019_
 
 ---
 
@@ -14,11 +14,13 @@ _Last updated: October, 2019_
 Go to https://api.slack.com/apps to create a new app. 
 
 - App Home
-  - Join beta (This will enable both features below!)
   - Enable Home Tab
   - Enable Message (if your app takes DM from users)
   
 - Enable Bot user
+
+- Add appropriate bot scope(s)
+  - `chat.write`
 
 - Enable Events
   - Request URL should be https://*your-project*.glitch.me/slack/events
