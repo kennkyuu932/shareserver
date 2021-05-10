@@ -1,1 +1,24 @@
-{"U5R3PALPN":{"data":[{"timestamp":"2020-3-17 19:27:12","note":"Hello world!","color":"yellow"},{"timestamp":"2020-3-17 19:27:25","note":"Buy some cat food","color":"green"},{"timestamp":"2020-3-17 19:31:45","note":"Make things happen!!!","color":"pink"}]}}
+{
+    "dtn": [
+        {
+            "team_id": "TKE08KM7A",
+            "users": [
+                {
+                    "id": "U01EKTT6P2R",
+                    "eid": "dtn://android-vaio2.dtn",
+                    "real_name": "\\u23665\\u30000\\u22826\\u37070"
+                },
+                {
+                    "id": "UK7K34444",
+                    "eid": "dtn://android-11.dtn",
+                    "real_name": "\\u37428\\u26408\\u33457\\u23376"
+                },
+                {
+                    "id": "UK7K3D4N5",
+                    "eid": "dtn://android-so2k.dtn",
+                    "real_name": "\\u30707\\u37326\\u20581\\u27760"
+                }
+            ]
+        }
+    ]
+}
