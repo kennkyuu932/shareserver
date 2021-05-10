@@ -16,6 +16,8 @@ const signature = require('./verifySignature');
 const appHome = require('./appHome');
 const message = require('./message');
 
+require('dotenv').config();
+
 const app = express();
 
 const apiUrl = 'https://slack.com/api';
@@ -46,12 +48,14 @@ app.post('/slack/events', async(req, res) => {
   switch (req.body.type) {
       
     case 'url_verification': {
+      console.log("VERIFICATION");
       // verify Events API endpoint by returning challenge if present
       res.send({ challenge: req.body.challenge });
       break;
     }
       
     case 'event_callback': {
+      console.log("CALLBACK");
       // Verify the signing secret
       if (!signature.isVerified(req)) {
         res.sendStatus(404);
@@ -62,35 +66,13 @@ app.post('/slack/events', async(req, res) => {
       else {
         
         const {type, user, channel, tab, text, subtype} = req.body.event;
+        const team_id = req.body.team_id;
 
         // Triggered when the App Home is opened by a user
         if(type === 'app_home_opened') {
           // Display App Home
-          appHome.displayHome(user);
+          appHome.displayHome(user, team_id);
         }
-        
-        /* 
-         * If you want to allow user to create a note from DM, uncomment the part! 
-
-        // Triggered when the bot gets a DM
-        else if(type === 'message') {
-          
-          if(subtype !== 'bot_message') { 
-            
-            // Create a note from the text with a default color
-            const timestamp = new Date();
-            const data = {
-              timestamp: timestamp,
-              note: text,
-              color: 'yellow'
-            }
-            await appHome.displayHome(user, data);
-                                         
-            // DM back to the user 
-            message.send(channel, text);
-          }
-        }
-        */
       }
       break;
     }
@@ -101,37 +83,43 @@ app.post('/slack/events', async(req, res) => {
 
 
 /*
- * Endpoint to receive an button action from App Home UI "Add a Stickie"
+ * Endpoint to receive an button action from App Home UI
  */
 
-app.post('/slack/actions', async(req, res) => {
-  //console.log(JSON.parse(req.body.payload));
-  
-  const { token, trigger_id, user, actions, type } = JSON.parse(req.body.payload);
- 
-  // Button with "add_" action_id clicked --
-  if(actions && actions[0].action_id.match(/add_/)) {
-    // Open a modal window with forms to be submitted by a user
-    appHome.openModal(trigger_id);
-  } 
-  
-  // Modal forms submitted --
-  else if(type === 'view_submission') {
-    res.send(''); // Make sure to respond to the server to avoid an error
-    
-    const ts = new Date();
-    const { user, view } = JSON.parse(req.body.payload);
+app.post('/slack/actions', async(req, res) => {});
 
-    const data = {
-      timestamp: ts.toLocaleString(),
-      note: view.state.values.note01.content.value,
-      color: view.state.values.note02.color.selected_option.value
+
+/*
+ * Endpoint to receive an action from Android app "DTNFileShare"
+ */
+
+app.post('/android', async(req, res) => {
+  console.log("form android");
+  res.send("android");
+
+  const ts = new Date();
+  const id = req.body.id;
+  const eid = req.body.eid;
+  const team_id = req.body.team_id;
+
+  var real_name;
+  await axios.get(`${apiUrl}/users.info`, {
+    params: {
+      token: process.env.SLACK_BOT_TOKEN,
+      user: id
     }
-    
-    appHome.displayHome(user.id, data);
+  }).then(res =>{
+    real_name = res.data.user.real_name;
+  });
+  
+  const data = {
+    id: id,
+    eid: eid,
+    real_name: toCodepoint(real_name)
   }
-});
-
+  
+  appHome.displayHome(id, team_id, data);
+})
 
 
 /* Running Express server */
@@ -143,3 +131,13 @@ const server = app.listen(5000, () => {
 app.get('/', async(req, res) => {
   res.send('There is no web UI for this code sample. To view the source code, click "View Source"');
 });
+
+
+/* unidode encoder */
+const toCodepoint = (str) => {
+  var result = "";
+  for (var i = 0; i < str.length; i++) {
+    result = result + "\\u" + str.codePointAt(i)
+  }
+  return result;
+}

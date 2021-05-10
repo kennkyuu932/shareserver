@@ -2,111 +2,146 @@ const axios = require('axios');
 const qs = require('qs');
 
 const JsonDB = require('node-json-db');
-const db = new JsonDB('notes', true, false);
+const db = new JsonDB('notes', true, true);
 
+const rison = require('rison');
 
 const apiUrl = 'https://slack.com/api';
 
-//db.delete("/");
-
-
-/*
- * Home View - Use Block Kit Builder to compose: https://api.slack.com/tools/block-kit-builder
- */
-
-const updateView = async(user) => {
+const updateView = async(user, team_id) => {
   
-  // Intro message - 
+  let rawData;
+  try {
+    rawData = db.getData(`/`);
+  } catch(error) {
+    console.error(error); 
+  };
   
-  let blocks = [ 
+  const i = rawData.dtn.findIndex(d => d.team_id === team_id);
+  const teamData = rawData.dtn[i];
+
+  let isRegistered;
+  if (rawData.dtn[i].users.findIndex(d => d.id === user) === -1) {
+    isRegistered = false;
+  } else {
+    isRegistered = true;
+  }
+  
+  const query = rison.encode_object(teamData)
+  let uri = `dtn://sync.eid?${query}`
+
+  const registeQuery = rison.encode_object({id:user, team_id:team_id});
+  const regiserUrl = `dtn://register.eid?${registeQuery}`
+  
+  let blocks = [];
+
+  let z = (isRegistered) ? " (登録済み)" : "";
+  let x = (isRegistered) ? "EID更新" : "登録";
+  let nextBlock = [
+    {
+      type: "divider"
+    },
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Welcome!* \nThis is a home for Stickers app. You can add small notes here!"
+        text: `*EIDの登録${z}*`
       },
       accessory: {
         type: "button",
         action_id: "add_note", 
+        url: regiserUrl,
         text: {
           type: "plain_text",
-          text: "Add a Stickie",
+          text: x,
           emoji: true
         }
       }
     },
     {
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: ":wave: Hey, my source code is on <https://glitch.com/edit/#!/apphome-demo-keep|glitch>!"
-        }
-      ]
-    },
-    {
       type: "divider"
     }
-  ];
-  
-  
-  // Append new data blocks after the intro - 
-  
-  let newData = [];
-  
-  try {
-    const rawData = db.getData(`/${user}/data/`);
-    
-    newData = rawData.slice().reverse(); // Reverse to make the latest first
-    newData = newData.slice(0, 50); // Just display 20. BlockKit display has some limit.
+  ]
+  blocks = blocks.concat(nextBlock);
 
-  } catch(error) {
-    //console.error(error); 
-  };
-  
-  if(newData) {
-    let noteBlocks = [];
-    
-    for (const o of newData) {
-      
-      const color = (o.color) ? o.color : 'yellow';
-      
-      let note = o.note;
-      if (note.length > 3000) {
-        note = note.substr(0, 2980) + '... _(truncated)_'
-        console.log(note.length);
+  if (isRegistered) {
+    let nextBlocks = [
+      {
+        type: "divider"
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*EIDリストの同期*"
+        },
+        accessory: {
+          type: "button",
+          action_id: "add_note", 
+          url: uri,
+          text: {
+            type: "plain_text",
+            text: "同期",
+            emoji: true
+          }
+        }
+      },
+      {
+        type: "divider"
       }
-            
-      noteBlocks = [
+    ];
+    blocks = blocks.concat(nextBlocks);
+
+    const newData = teamData.users;
+    if(newData) {
+      let textBlocks = [
+        {
+          type: "divider"
+        },
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: note
-          },
-          accessory: {
-            type: "image",
-            image_url: `https://cdn.glitch.com/0d5619da-dfb3-451b-9255-5560cd0da50b%2Fstickie_${color}.png`,
-            alt_text: "stickie note"
+            text: "*登録済みユーザリスト*"
           }
-        },
-        {
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": o.timestamp
-            }
-          ]
-        },
-        {
-          type: "divider"
         }
       ];
-      blocks = blocks.concat(noteBlocks);
-    
+      blocks = blocks.concat(textBlocks);
+
+      let noteBlocks = [];
+      for (const o of newData) {
+        
+        //const id = o.id;
+        //const eid = o.eid;
+        const real_name = fromCodepoint(o.real_name);
+              
+        noteBlocks = [
+          // {
+          //   type: "section",
+          //   text: {
+          //     type: "mrkdwn",
+          //     text: "id: " + id
+          //   }
+          // },
+          // {
+          //   type: "section",
+          //   text: {
+          //     type: "mrkdwn",
+          //     text: "eid: " + eid
+          //   }
+          // },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "- " + real_name//"real_name: " + real_name
+            }
+          }
+        ];
+        blocks = blocks.concat(noteBlocks);
+      }
+      blocks = blocks.concat({type: "divider"});
     }
-    
   }
 
   // The final view -
@@ -115,7 +150,7 @@ const updateView = async(user) => {
     type: 'home',
     title: {
       type: 'plain_text',
-      text: 'Keep notes!'
+      text: 'text!'
     },
     blocks: blocks
   }
@@ -127,17 +162,53 @@ const updateView = async(user) => {
 
 /* Display App Home */
 
-const displayHome = async(user, data) => {
+const displayHome = async(user, team_id, data) => {
   
-  if(data) {     
-    // Store in a local DB
-    db.push(`/${user}/data[]`, data, true);   
+  let rawData;
+
+  try {
+    if (db.getData(`/`).dtn === undefined) {
+      db.push(`/`, {dtn: []});
+      db.save();
+      db.reload();
+    }
+  } catch(error) {
+    console.error(error);
+  };
+
+  try {
+    if (db.getData(`/`).dtn.findIndex(d => d.team_id === team_id) === -1) {
+      db.push(`/dtn[]/`, {team_id: team_id, users: []});
+      db.save();
+      db.reload();
+    }
+  } catch(error) {
+    console.error(error);
+  };
+
+  try {
+    rawData = db.getData(`/`);
+  } catch(error) {
+    console.error(error);
+  };
+  const i = rawData.dtn.findIndex(d => d.team_id === team_id);
+  
+  if(data) {
+    const i = rawData.dtn.findIndex(d => d.team_id === team_id);
+    const j = rawData.dtn[i].users.findIndex(d => d.id === data.id);
+
+    if (!(j === -1)) {
+      db.delete(`/dtn[${i}]/users[${j}]`);
+    }
+    db.push(`/dtn[${i}]/users[]/`, data, true);
+    db.save();
+    db.reload();
   }
 
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     user_id: user,
-    view: await updateView(user)
+    view: await updateView(user, team_id)
   };
 
   const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
@@ -151,100 +222,14 @@ const displayHome = async(user, data) => {
   }
 };
 
+/* unidode decoder */
+const fromCodepoint = (str) => {
+  var result = "";
+  var split = str.split("\\u");
+  for (var i = 1; i < split.length; i++) {
+    result = result + String.fromCodePoint(Number(split[i]));
+  }
+  return result;
+}
 
-
-/* Open a modal */
-
-const openModal = async(trigger_id) => {
-  
-  const modal = {
-    type: 'modal',
-    title: {
-      type: 'plain_text',
-      text: 'Create a stickie note'
-    },
-    submit: {
-      type: 'plain_text',
-      text: 'Create'
-    },
-    blocks: [
-      // Text input
-      {
-        "type": "input",
-        "block_id": "note01",
-        "label": {
-          "type": "plain_text",
-          "text": "Note"
-        },
-        "element": {
-          "action_id": "content",
-          "type": "plain_text_input",
-          "placeholder": {
-            "type": "plain_text",
-            "text": "Take a note... \n(Text longer than 3000 characters will be truncated!)"
-          },
-          "multiline": true
-        }
-      },
-      
-      // Drop-down menu      
-      {
-        "type": "input",
-        "block_id": "note02",
-        "label": {
-          "type": "plain_text",
-          "text": "Color",
-        },
-        "element": {
-          "type": "static_select",
-          "action_id": "color",
-          "options": [
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "yellow"
-              },
-              "value": "yellow"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "blue"
-              },
-              "value": "blue"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "green"
-              },
-              "value": "green"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "pink"
-              },
-              "value": "pink"
-            }
-          ]
-        }
-      
-      }
-    ]
-  };
-  
-  const args = {
-    token: process.env.SLACK_BOT_TOKEN,
-    trigger_id: trigger_id,
-    view: JSON.stringify(modal)
-  };
-  
-  const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
-  
-  //console.log(result.data);
-};
-
-
-
-module.exports = { displayHome, openModal };
+module.exports = { displayHome };
