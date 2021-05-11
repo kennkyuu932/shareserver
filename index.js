@@ -58,6 +58,7 @@ app.post('/slack/events', async(req, res) => {
       console.log("CALLBACK");
       // Verify the signing secret
       if (!signature.isVerified(req)) {
+        console.log("callbackerror");
         res.sendStatus(404);
         return;
       } 
@@ -86,7 +87,9 @@ app.post('/slack/events', async(req, res) => {
  * Endpoint to receive an button action from App Home UI
  */
 
-app.post('/slack/actions', async(req, res) => {});
+app.post('/slack/actions', async(req, res) => {
+  console.log("actions");
+});
 
 
 /*
