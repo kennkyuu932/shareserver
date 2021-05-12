@@ -15,10 +15,10 @@ const send = async(channel, text) => {
   const args = {
     token: process.env.SLACK_BOT_TOKEN,
     channel: channel,
-    text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`
+    text: ':wave: Hey, I created this note for you in my _Home_: \n>>>${text}'
   };
   
-  const result = await axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(args));
+  const result = await axios.post('${apiUrl}/chat.postMessage', qs.stringify(args));
   
   try {
     console.log(result.data);

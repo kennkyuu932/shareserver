@@ -12,7 +12,7 @@ const updateView = async(user, team_id) => {
   
   let rawData;
   try {
-    rawData = db.getData(`/`);
+    rawData = db.getData('/');
   } catch(error) {
     console.error(error); 
   };
@@ -28,10 +28,10 @@ const updateView = async(user, team_id) => {
   }
   
   const query = rison.encode_object(teamData)
-  let uri = `dtn://sync.eid?${query}`
+  let uri = 'dtn://sync.eid?${query}'
 
   const registeQuery = rison.encode_object({id:user, team_id:team_id});
-  const regiserUrl = `dtn://register.eid?${registeQuery}`
+  const regiserUrl = 'dtn://register.eid?${registeQuery}'
   
   let blocks = [];
 
@@ -168,7 +168,7 @@ const displayHome = async(user, team_id, data) => {
 
   try {
     if (db.getData(`/`).dtn === undefined) {
-      db.push(`/`, {dtn: []});
+      db.push('/', {dtn: []});
       db.save();
       db.reload();
     }
@@ -177,8 +177,8 @@ const displayHome = async(user, team_id, data) => {
   };
 
   try {
-    if (db.getData(`/`).dtn.findIndex(d => d.team_id === team_id) === -1) {
-      db.push(`/dtn[]/`, {team_id: team_id, users: []});
+    if (db.getData('/').dtn.findIndex(d => d.team_id === team_id) === -1) {
+      db.push('/dtn[]/', {team_id: team_id, users: []});
       db.save();
       db.reload();
     }
@@ -187,7 +187,7 @@ const displayHome = async(user, team_id, data) => {
   };
 
   try {
-    rawData = db.getData(`/`);
+    rawData = db.getData('/');
   } catch(error) {
     console.error(error);
   };
@@ -198,7 +198,7 @@ const displayHome = async(user, team_id, data) => {
     const j = rawData.dtn[i].users.findIndex(d => d.id === data.id);
 
     if (!(j === -1)) {
-      db.delete(`/dtn[${i}]/users[${j}]`);
+      db.delete('/dtn[${i}]/users[${j}]');
     }
     db.push(`/dtn[${i}]/users[]/`, data, true);
     db.save();
@@ -211,7 +211,7 @@ const displayHome = async(user, team_id, data) => {
     view: await updateView(user, team_id)
   };
 
-  const result = await axios.post(`${apiUrl}/views.publish`, qs.stringify(args));
+  const result = await axios.post('${apiUrl}/views.publish', qs.stringify(args));
 
   try {
     if(result.data.error) {
