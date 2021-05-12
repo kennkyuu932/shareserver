@@ -129,7 +129,7 @@ const server = app.listen(5000, () => {
 
 
 app.get('/', async(req, res) => {
-  res.send('There is no web UI for this code sample. To view the source code, click "View Source"');
+  res.send('Hello, There is no web UI for this code sample. To view the source code, click "View Source"');
 });
 
 
