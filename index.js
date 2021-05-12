@@ -103,7 +103,7 @@ app.post('/android', async(req, res) => {
   const team_id = req.body.team_id;
 
   var real_name;
-  await axios.get('${apiUrl}/users.info', {
+  await axios.get(`${apiUrl}/users.info`, {
     params: {
       token: process.env.SLACK_BOT_TOKEN,
       user: id
