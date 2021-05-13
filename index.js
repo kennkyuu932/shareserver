@@ -103,7 +103,9 @@ app.post('/android', async(req, res) => {
   const team_id = req.body.team_id;
   
   //console.log(`${team_id}`);
-  //console.log(`${apiUrl}/users.list`);
+  var debug;
+  debug=>()
+  console.log("");
   var real_name;
   await axios.get(`${apiUrl}/users.info`, {
     params: {
@@ -111,7 +113,6 @@ app.post('/android', async(req, res) => {
       user: id
     }
   }).then(res =>{
-    //console.log(req);
     real_name = res.data.user.real_name;
   });
   
