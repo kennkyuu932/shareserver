@@ -103,7 +103,7 @@ app.post('/android', async(req, res) => {
   const team_id = req.body.team_id;
   
   //console.log(`${team_id}`);
-
+  //console.log(`${apiUrl}/users.info`);
   var real_name;
   await axios.get(`${apiUrl}/users.info`, {
     params: {
