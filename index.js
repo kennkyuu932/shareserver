@@ -113,6 +113,7 @@ app.post('/android', async(req, res) => {
       user: id
     }
   }).then(res =>{
+    console.log(res.data);
     real_name = res.data.user.real_name;
   });
   
