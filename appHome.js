@@ -114,7 +114,7 @@ const updateView = async(user, team_id) => {
         //const id = o.id;
         //const eid = o.eid;
         const real_name = fromCodepoint(o.real_name);
-              console.log(o.real_name);
+              //console.log(o.real_name);
         noteBlocks = [
           // {
           //   type: "section",
