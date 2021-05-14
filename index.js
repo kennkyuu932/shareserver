@@ -102,11 +102,6 @@ app.post('/android', async(req, res) => {
   const eid = req.body.eid;
   const team_id = req.body.team_id;
   
-  //console.log(`${team_id}`);
-  //var debug;
-  //debug= `${apiUrl}/users.list`.ok;
-  //console.log();
-
   var real_name;
   await axios.get(`${apiUrl}/users.info`, {
      params: {
@@ -117,8 +112,6 @@ app.post('/android', async(req, res) => {
        Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`
      }
   }).then(res =>{
-    //console.log(id);
-    //real_name = id;
     real_name = res.data.user.real_name;
   });
   
