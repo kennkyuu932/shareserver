@@ -109,10 +109,13 @@ app.post('/android', async(req, res) => {
 
   var real_name;
   await axios.get(`${apiUrl}/users.info`, {
-    params: {
-      token: process.env.SLACK_BOT_TOKEN,
-      user: id
-    }
+     params: {
+	 // token: process.env.SLACK_BOT_TOKEN,
+       user: id
+     },
+     headers: {
+       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`
+     }
   }).then(res =>{
     //console.log(id);
     //real_name = id;
