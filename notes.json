@@ -24,14 +24,14 @@
             "team_id": "T01V80XF96F",
             "users": [
                 {
-                    "id": "U01V4MV0MC5",
-                    "eid": "dtn://android-a1e9ecb0.dtn",
-                    "real_name": "\\u85\\u48\\u49\\u86\\u52\\u77\\u86\\u48\\u77\\u67\\u53"
-                },
-                {
                     "id": "U020TD2G1TJ",
                     "eid": "dtn://android-7c78181e.dtn",
                     "real_name": "\\u85\\u48\\u50\\u48\\u84\\u68\\u50\\u71\\u49\\u84\\u74"
+                },
+                {
+                    "id": "U01V4MV0MC5",
+                    "eid": "dtn://android-a1e9ecb0.dtn",
+                    "real_name": "\\u85\\u48\\u49\\u86\\u52\\u77\\u86\\u48\\u77\\u67\\u53"
                 }
             ]
         }
