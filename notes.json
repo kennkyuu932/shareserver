@@ -30,12 +30,12 @@
                 },
                 {
                     "id": "U01V4MV0MC5",
-                    "eid": "ipn:2479002299",
-                    "real_name": "\\u26449\\u36234\\u32\\u20801"
+                    "eid": "dtn://android-a1e9ecb0.dtn",
+                    "real_name": "\\u88\\u112\\u101\\u114\\u105\\u97"
                 },
                 {
                     "id": "U020TD2G1TJ",
-                    "eid": "ipn:3604807284",
+                    "eid": "dtn://android-7c78181e.dtn",
                     "real_name": "\\u31532\\u50"
                 }
             ]
