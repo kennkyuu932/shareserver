@@ -39,6 +39,21 @@
                     "real_name": "\\u31532\\u50"
                 }
             ]
+        },
+        {
+            "team_id": "T027AUW43EC",
+            "users": [
+                {
+                    "id": "U026M8NKSUA",
+                    "eid": "dtn://android-11.dtn",
+                    "real_name": "\\u88\\u112\\u101\\u114\\u105\\u97\\u40\\u82\\u87\\u41"
+                },
+                {
+                    "id": "U026J7W8VB7",
+                    "eid": "dtn://android-a1e9ecb0.dtn",
+                    "real_name": "\\u88\\u112\\u101\\u114\\u105\\u97\\u40\\u78\\u75\\u41"
+                }
+            ]
         }
     ]
 }
