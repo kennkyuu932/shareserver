@@ -44,6 +44,11 @@
             "team_id": "T027AUW43EC",
             "users": [
                 {
+                    "id": "U0266GU25E3",
+                    "eid": "dtn://android-7c78181e.dtn",
+                    "real_name": "\\u86\\u65\\u73\\u79"
+                },
+                {
                     "id": "U026M8NKSUA",
                     "eid": "dtn://android-11.dtn",
                     "real_name": "\\u88\\u112\\u101\\u114\\u105\\u97\\u40\\u82\\u87\\u41"
