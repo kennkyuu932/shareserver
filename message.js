@@ -3,6 +3,11 @@ const qs = require('qs');
 
 const apiUrl = 'https://slack.com/api';
 
+//2021/10/20追加
+const JsonDB = require('node-json-db');
+const db = new JsonDB('notification', true, true);
+//
+
 /*
  *  Handling DM messages
  */
