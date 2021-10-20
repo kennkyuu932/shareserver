@@ -10,8 +10,3 @@ DTNFileShare
 
 ### 変更履歴
 
-2021/10/2
-
-- message.js
-
-ファイル送受信時の通知のタイムスタンプを notification.json に出力できるように変更
