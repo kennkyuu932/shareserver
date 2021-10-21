@@ -173,8 +173,6 @@ app.post('/notice', async(req, res) => {
     }
     
     notice.push(data);
-    notice.save();
-    notice.reload();
     
     /*
     console.log(ts);
