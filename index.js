@@ -149,11 +149,9 @@ app.post('/notice', async(req, res) => {
   }
   
   console.log(ts);
-  /*
   console.log(id);
   console.log(eid);
   console.log(message);
-  */
   
 })
 //
