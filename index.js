@@ -137,21 +137,49 @@ app.post('/notice', async(req, res) => {
   res.send("android");
 
   const ts = new Date();
-  const id = req.body.id;
-  const eid = req.body.eid;
-  const message = req.body.message;
+  const noticeflag = req.body.noticeflag;
+  const send = req.body.send;
+  const receive = req.body.receive;
   
+  console.log("noticeflag: " + noticeflag);
+  console.log("send: " + send);
+  console.log("receive: " + receive);
+  //送信通知
+  if(noticeflag==3){
+    const message = req.body.message;
+    console.log("送信通知");
   
-  const data = {
-    id: id,
-    eid: eid,
-    message: message
+    const data = {
+      time: ts,
+      send: send,
+      receive: receive,
+      message: message
+    }
+    
+    console.log(ts);
+    console.log(send);
+    console.log(receive);
+    console.log(message);
   }
+  //受信通知
+  if(noticeflag==4){
+    const bundleid=req.body.bunid;
+    console.log("受信通知");
+    const data = {
+      time: ts,
+      send: send,
+      receive: receive,
+      bundleid :bundleid
+    }
+    console.log(ts);
+    console.log(send);
+    console.log(receive);
+    console.log(message);
+    console.log(bundleid)
+  }
+
   
-  console.log(ts);
-  console.log(id);
-  console.log(eid);
-  console.log(message);
+
   
 })
 //
