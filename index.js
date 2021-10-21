@@ -136,8 +136,8 @@ app.post('/notice', async(req, res) => {
   console.log("web api");
   res.send("android");
 
-  const ts = new Date();
-  console.log(ts.getTimezoneOffset());
+  const tim = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
+  console.log(tim);
   const noticeflag = req.body.noticeflag;
   const send = req.body.send;
   const receive = req.body.receive;
@@ -159,13 +159,13 @@ app.post('/notice', async(req, res) => {
     console.log("送信通知");
   
     const data = {
-      time: ts,
+      time: tim,
       send: send,
       receive: receive,
       message: message
     }
     
-    console.log(ts);
+    console.log(tim);
     console.log(send);
     console.log(receive);
     console.log(message);
@@ -175,12 +175,12 @@ app.post('/notice', async(req, res) => {
     const bundleid=req.body.bunid;
     console.log("受信通知");
     const data = {
-      time: ts,
+      time: tim,
       send: send,
       receive: receive,
       bundleid :bundleid
     }
-    console.log(ts);
+    console.log(tim);
     console.log(send);
     console.log(receive);
     console.log(bundleid)
