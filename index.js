@@ -172,10 +172,14 @@ app.post('/notice', async(req, res) => {
       message: message
     }
     
+    notice.push('')
+    
+    /*
     console.log(ts);
     console.log(send);
     console.log(receive);
     console.log(message);
+    */
   }
   //受信通知
   if(noticeflag==4){
@@ -187,10 +191,12 @@ app.post('/notice', async(req, res) => {
       receive: receive,
       bundleid :bundleid
     }
+    /*
     console.log(ts);
     console.log(send);
     console.log(receive);
-    console.log(bundleid)
+    console.log(bundleid);
+    */
   }
 
   
