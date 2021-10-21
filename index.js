@@ -139,32 +139,21 @@ app.post('/notice', async(req, res) => {
   const ts = new Date();
   const id = req.body.id;
   const eid = req.body.eid;
-  const message = req.body.team_id;
+  const message = req.body.message;
   
-  var real_name;
-  await axios.get(`${apiUrl}/users.info`, {
-     params: {
-	 // token: process.env.SLACK_BOT_TOKEN,
-       user: id
-     },
-     headers: {
-       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`
-     }
-  }).then(res =>{
-    real_name = res.data.user.real_name;
-  });
   
   const data = {
     id: id,
     eid: eid,
-    real_name: toCodepoint(real_name)
+    message: message
   }
   
   console.log(ts);
-  
-  notice.push('test');
-  notice.save();
-  notice.reload();
+  /*
+  console.log(id);
+  console.log(eid);
+  console.log(message);
+  */
   
 })
 //
