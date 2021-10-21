@@ -137,6 +137,7 @@ app.post('/notice', async(req, res) => {
   res.send("android");
 
   const ts = new Date();
+  console.log(ts.getTimezoneOffset());
   const noticeflag = req.body.noticeflag;
   const send = req.body.send;
   const receive = req.body.receive;
