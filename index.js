@@ -137,7 +137,14 @@ app.post('/notice', async(req, res) => {
   res.send("android");
 
   const tim = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
-  console.log(tim);
+  //console.log(tim);
+  const ts = (tim.getFullYear() + `/` 
+          + (tim.getMonth() +1) + `/` 
+          + tim.getDate() + ` ` 
+          + tim.getHours() + `:` 
+          + tim.getMinutes() + `:` 
+          + tim.getSeconds() + `.` 
+          + tim.getMilliseconds());
   const noticeflag = req.body.noticeflag;
   const send = req.body.send;
   const receive = req.body.receive;
@@ -159,13 +166,13 @@ app.post('/notice', async(req, res) => {
     console.log("送信通知");
   
     const data = {
-      time: tim,
+      time: ts,
       send: send,
       receive: receive,
       message: message
     }
     
-    console.log(tim);
+    console.log(ts);
     console.log(send);
     console.log(receive);
     console.log(message);
@@ -175,12 +182,12 @@ app.post('/notice', async(req, res) => {
     const bundleid=req.body.bunid;
     console.log("受信通知");
     const data = {
-      time: tim,
+      time: ts,
       send: send,
       receive: receive,
       bundleid :bundleid
     }
-    console.log(tim);
+    console.log(ts);
     console.log(send);
     console.log(receive);
     console.log(bundleid)
