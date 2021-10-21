@@ -172,7 +172,9 @@ app.post('/notice', async(req, res) => {
       message: message
     }
     
-    notice.push('')
+    notice.push(data);
+    notice.save();
+    notice.reload();
     
     /*
     console.log(ts);
@@ -191,6 +193,9 @@ app.post('/notice', async(req, res) => {
       receive: receive,
       bundleid :bundleid
     }
+    
+    notice.push(data);
+
     /*
     console.log(ts);
     console.log(send);
