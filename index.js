@@ -141,7 +141,16 @@ app.post('/notice', async(req, res) => {
   const send = req.body.send;
   const receive = req.body.receive;
   
-  const time = ts.getFullYear() + `/` + (ts.getMonth() +1) + `/` + ts.getDate() + `/` + ts.getHours() + `/` + ts.getMinutes() + `/`
+  /*
+  const time = (ts.getFullYear() + `/` 
+                + (ts.getMonth() +1) + `/` 
+                + ts.getDate() + `/` 
+                + ts.getHours() + `/` 
+                + ts.getMinutes() + `/` 
+                + ts.getSeconds() + `/` 
+                + ts.getMilliseconds());
+  console.log(time);
+  */
   
   //送信通知
   if(noticeflag==3){
