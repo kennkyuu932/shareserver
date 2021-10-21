@@ -141,9 +141,6 @@ app.post('/notice', async(req, res) => {
   const send = req.body.send;
   const receive = req.body.receive;
   
-  console.log("noticeflag: " + noticeflag);
-  console.log("send: " + send);
-  console.log("receive: " + receive);
   //送信通知
   if(noticeflag==3){
     const message = req.body.message;
@@ -174,7 +171,6 @@ app.post('/notice', async(req, res) => {
     console.log(ts);
     console.log(send);
     console.log(receive);
-    console.log(message);
     console.log(bundleid)
   }
 
