@@ -22,6 +22,11 @@ const app = express();
 
 const apiUrl = 'https://slack.com/api';
 
+//notification.jsonに書き込むための準備(2021/10/21追加)
+const JsonDB = require('node-json-db');
+const notice = new JsonDB('notification', true, true);
+//
+
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
@@ -124,6 +129,45 @@ app.post('/android', async(req, res) => {
   
   appHome.displayHome(id, team_id, data);
 })
+
+
+//Slack通知の外部出力(2021/10/21追加)
+app.post('/notice', async(req, res) => {
+  console.log("web api");
+  res.send("android");
+
+  const ts = new Date();
+  const id = req.body.id;
+  const eid = req.body.eid;
+  const message = req.body.team_id;
+  
+  var real_name;
+  await axios.get(`${apiUrl}/users.info`, {
+     params: {
+	 // token: process.env.SLACK_BOT_TOKEN,
+       user: id
+     },
+     headers: {
+       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`
+     }
+  }).then(res =>{
+    real_name = res.data.user.real_name;
+  });
+  
+  const data = {
+    id: id,
+    eid: eid,
+    real_name: toCodepoint(real_name)
+  }
+  
+  console.log(ts);
+  
+  notice.push('test');
+  notice.save();
+  notice.reload();
+  
+})
+//
 
 
 /* Running Express server */
