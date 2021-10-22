@@ -174,7 +174,6 @@ app.post('/notice', async(req, res) => {
     
     const dataj = JSON.stringify(data);
     
-    console.log(dataj);
     
     notice.push(dataj);
     
@@ -197,8 +196,6 @@ app.post('/notice', async(req, res) => {
     }
     
     const dataj = JSON.stringify(data);
-    
-    console.log(dataj);
     
     notice.push(dataj);
 
