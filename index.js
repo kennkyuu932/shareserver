@@ -24,7 +24,7 @@ const apiUrl = 'https://slack.com/api';
 
 //notification.jsonに書き込むための準備(2021/10/21追加)
 const JsonDB = require('node-json-db');
-const notice = new JsonDB('notification', true, true);
+const notice = new JsonDB('notification', true, false);
 //
 
 
@@ -174,6 +174,8 @@ app.post('/notice', async(req, res) => {
     
     const dataj = JSON.stringify(data);
     
+    console.log(dataj);
+    
     notice.push(dataj);
     
     /*
@@ -195,6 +197,8 @@ app.post('/notice', async(req, res) => {
     }
     
     const dataj = JSON.stringify(data);
+    
+    console.log(dataj);
     
     notice.push(dataj);
 
