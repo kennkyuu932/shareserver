@@ -176,6 +176,9 @@ app.post('/notice', async(req, res) => {
     
     
     notice.push(dataj);
+    notice.save();
+    notice.reload();
+    //console.log(notice.getData());
     
     /*
     console.log(ts);
@@ -192,12 +195,16 @@ app.post('/notice', async(req, res) => {
       time: ts,
       send: send,
       receive: receive,
-      bundleid :bundleid
+      bundleid: bundleid
     }
     
     const dataj = JSON.stringify(data);
     
     notice.push(dataj);
+    notice.save();
+    notice.reload();
+    
+    //console.log(notice.getData());
 
     /*
     console.log(ts);
