@@ -155,7 +155,7 @@ app.post("/notice", async (req, res) => {
   const receive = req.body.receive;
 
   try {
-    if (notice.getData(`/`).dtn === undefined) {
+    if (notice.getData(`/`).notice === undefined) {
       notice.push(`/`, { notice: [] });
       notice.save();
       notice.reload();
@@ -186,8 +186,9 @@ app.post("/notice", async (req, res) => {
       receive: receive,
       message: message
     };
+    
 
-    notice.push(`/notice[]`, data, true);
+    notice.push(`/notice[]/`, data, true);
     notice.save();
     notice.reload();
     //console.log(notice.getData());
@@ -210,7 +211,7 @@ app.post("/notice", async (req, res) => {
       bundleid: bundleid
     };
 
-    notice.push(`/notice[]`, data, true);
+    notice.push(`/notice[]/`, data, true);
     notice.save();
     notice.reload();
 
