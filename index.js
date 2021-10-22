@@ -149,6 +149,18 @@ app.post('/notice', async(req, res) => {
   const send = req.body.send;
   const receive = req.body.receive;
   
+  
+  try {
+    if (notice.getData(`/`).dtn === undefined) {
+      notice.push(`/`, {notice: []});
+      notice.save();
+      notice.reload();
+    }
+  } catch(error) {
+    console.error(error);
+  };
+
+  
   /*
   const time = (ts.getFullYear() + `/` 
                 + (ts.getMonth() +1) + `/` 
@@ -172,10 +184,8 @@ app.post('/notice', async(req, res) => {
       message: message
     }
     
-    const dataj = JSON.stringify(data);
     
-    
-    notice.push(dataj);
+    notice.push(`/notice[]`,data,true);
     notice.save();
     notice.reload();
     //console.log(notice.getData());
@@ -198,9 +208,8 @@ app.post('/notice', async(req, res) => {
       bundleid: bundleid
     }
     
-    const dataj = JSON.stringify(data);
     
-    notice.push(dataj);
+    notice.push(`/notice[]`,data,true);
     notice.save();
     notice.reload();
     
